@@ -2,3 +2,6 @@ body {
     margin: 60px auto;
     width: 70%;
 }
+container{
+    font-family:'Lato', 'Arial', 'Sans-Serif';
+}
