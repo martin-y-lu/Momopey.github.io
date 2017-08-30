@@ -14,3 +14,8 @@ h1 {
 .core{
     fill: black;
 }
+.myCanvas{
+   position: absolute; 
+   top: 200px; 
+   left: 0;  
+}
