@@ -15,6 +15,6 @@ h1 {
 }
 #myCanvas{
    position: absolute; 
-   top: 200px; 
+   top: 0; 
    left: 0;  
 }
