@@ -7,12 +7,6 @@ h1 {
     font-family:'Lato', 'Arial', 'Sans-Serif';
     color: black;
 }
-.blurb{
-    fill: white;
-}
-.core{
-    fill: black;
-}
 #myCanvas{
    position: absolute; 
    top: 0; 
