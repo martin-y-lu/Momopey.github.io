@@ -8,6 +8,7 @@ h1 {
     color: black;
 }
 #myCanvas{
+   position: absolute;
    top: 0; 
    left: 0;  
 }
