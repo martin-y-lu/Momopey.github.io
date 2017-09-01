@@ -7,8 +7,3 @@ h1 {
     font-family:'Lato', 'Arial', 'Sans-Serif';
     color: black;
 }
-#myCanvas{
-   position: absolute;
-   top: 0; 
-   left: 0;  
-}
