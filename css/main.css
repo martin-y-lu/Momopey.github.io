@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Tangerine);
 body {
+    font-family:Tangerine,sans-serif;
     margin: 60px auto;
     width: 70%;
 }
