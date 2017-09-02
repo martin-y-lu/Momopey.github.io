@@ -2,10 +2,10 @@ body {
     font-family:Coda,sans-serif;
     margin: 60px auto;
     width: 70%;
+    border: 5px solid #FFF;
+    padding: 50px;
 }
 .blurb {
     font-family:Coda,sans-serif;
     color: black;
-    border: 5px solid #FFF;
-    padding: 50px;
 }
