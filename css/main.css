@@ -3,10 +3,6 @@ body {
     width: 70%;
 }
 .blurb {
-    font-family:myFirstFont,sans-serif;
+    font-family:Tangerine,sans-serif;
     color: black;
-}
-@font-face {
-    font-family: myFirstFont;
-    src: url(https://fonts.google.com/specimen/Coda?selection.family=Coda);
 }
