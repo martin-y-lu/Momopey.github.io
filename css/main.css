@@ -3,6 +3,14 @@ body {
     width: 70%;
 }
 .blurb {
-    font-family:Coda,sans-serif;
+    font-family:myFirstFont,sans-serif;
     color: black;
+}
+@font-face {
+    font-family: myFirstFont;
+    src: url(sansation_light.woff);
+}
+
+div {
+    font-family: myFirstFont;
 }
