@@ -7,6 +7,6 @@ body {
 .blurb {
     font-family:Coda,sans-serif;
     color: black;
-    border: 2px solid #000;
+    border: 1 px solid #000;
     fill: white;
 }
