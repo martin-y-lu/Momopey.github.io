@@ -1,3 +1,6 @@
+h1{
+    border: 1px solid #000;
+}
 body {
     font-family:Coda,sans-serif;
     margin: 60px auto;
