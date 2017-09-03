@@ -7,9 +7,7 @@ body {
     font-family:Coda,sans-serif;
     color: black;
     background-color: white;
-    padding-top: 10;
-    padding-left:5;
-    padding-bottom: 20;
+    padding: 10 px;
 }
 .core  {
     color: white;
