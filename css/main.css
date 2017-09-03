@@ -2,6 +2,7 @@ body {
     font-family:Coda,sans-serif;
     width: 100%;
     background-color: black;
+    margin: 0px;
 }
 .title {
     width: 100%;
@@ -10,6 +11,7 @@ body {
     background-color: white;
     border-bottom: 2px solid red;
     padding-left: 30px;
+    margin: 0px;
 }
 .core  {
     color: white;
