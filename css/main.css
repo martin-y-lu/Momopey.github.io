@@ -1,12 +1,15 @@
 body {
     font-family:Coda,sans-serif;
-    margin: 60px auto;
+    margin: 0 px;
     width: 70%;
     background-color: black;
 }
 .blurb {
     font-family:Coda,sans-serif;
-    color: black;
+    color: white;
     border: 1px solid #000;
     background-color: white;
+}
+h1{
+    font-size: 36 px;
 }
