@@ -6,9 +6,9 @@ body {
 }
 .blurb {
     font-family:Coda,sans-serif;
-    color: white;
+    color: black;
     border: 1px solid #000;
-    background-color: black;
+    background-color: white;
 }
 .core  {
 }
