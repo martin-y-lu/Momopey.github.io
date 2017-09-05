@@ -13,6 +13,67 @@
     		</div>
 		<div class="core">
 			<a href="stuff.html">thingy</a>
+			<p>Move, press and release the mouse</p>
+			<p id="downlog">Down</p>
+			<p id="movelog">Move</p>
+			<p id="uplog">Up</p>
+			<p id="outlog">Out</p>
+			<canvas id="canvas" width=300 height=300></canvas>
 		</div>
 	</body>
+	<script>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+var canvasOffset = $("#canvas").offset();
+var offsetX = canvasOffset.left;
+var offsetY = canvasOffset.top;
+
+function handleMouseDown(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+    $("#downlog").html("Down: " + mouseX + " / " + mouseY);
+
+    // Put your mousedown stuff here
+
+}
+
+function handleMouseUp(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+    $("#uplog").html("Up: " + mouseX + " / " + mouseY);
+
+    // Put your mouseup stuff here
+}
+
+function handleMouseOut(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+    $("#outlog").html("Out: " + mouseX + " / " + mouseY);
+
+    // Put your mouseOut stuff here
+}
+
+function handleMouseMove(e) {
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+    $("#movelog").html("Move: " + mouseX + " / " + mouseY);
+
+    // Put your mousemove stuff here
+
+}
+
+$("#canvas").mousedown(function (e) {
+    handleMouseDown(e);
+});
+$("#canvas").mousemove(function (e) {
+    handleMouseMove(e);
+});
+$("#canvas").mouseup(function (e) {
+    handleMouseUp(e);
+});
+$("#canvas").mouseout(function (e) {
+    handleMouseOut(e);
+});
+	</script>
 </html>
