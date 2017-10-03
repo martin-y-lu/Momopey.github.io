@@ -1,6 +1,6 @@
 var ca=document.getElementById("Canvas");
 var ctx=ca.getContext("2d");
-ca.height=400;
+ca.height=600;
 var mouse={
 	x:0,
 	y:0
@@ -177,7 +177,7 @@ function animate(){
     drawBall(Balll.NextPos().x,Balll.NextPos().y,4);
     ctx.lineWidth=10;
     drawLine(Balll.Pos.x,Balll.Pos.y,Balll.NextPos().x,Balll.NextPos().y);
-    if(Balll.Pos.y>400){
+    if(Balll.Pos.y>600){
       BList.splice(BList.length-i-1,1);
     }
   }
