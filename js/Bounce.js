@@ -151,7 +151,7 @@ function animate(){
   BList.push(new ball(new vect(10,10),new vect(0,0),new vect(0,1)));
   for(var w=0;w<WList.length;w++){
     var W=WList[w];
-    ctx.lineWidth=10;
+    ctx.lineWidth=20;
     drawLine(W.Corner.x,W.Corner.y,W.Corner.x+W.Base.x,W.Corner.y+W.Base.y);
   }
   for(var i=0;i<BList.length;i++){
@@ -173,9 +173,9 @@ function animate(){
       }
     Balll.Update();
     ctx.lineWidth=1;
-    drawBall(Balll.Pos.x,Balll.Pos.y,4);
-    drawBall(Balll.NextPos().x,Balll.NextPos().y,4);
-    ctx.lineWidth=10;
+    drawBall(Balll.Pos.x,Balll.Pos.y,9);
+    drawBall(Balll.NextPos().x,Balll.NextPos().y,9);
+    ctx.lineWidth=20;
     drawLine(Balll.Pos.x,Balll.Pos.y,Balll.NextPos().x,Balll.NextPos().y);
     if(Balll.Pos.y>600){
       BList.splice(BList.length-i-1,1);
