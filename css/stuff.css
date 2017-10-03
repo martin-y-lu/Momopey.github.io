@@ -3,4 +3,5 @@ body{
 }
 canvas{
   background: black ;
+  border-bottom: 5px solid RGB(250,100,100);
 }
