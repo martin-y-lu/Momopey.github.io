@@ -60,7 +60,7 @@ function ball(Pos,Vel,Acc){
   this.Update=function(){
     this.Pos=this.NextPos();
     this.Vel.set(Vadd(this.Vel,this.Acc));
-    this.Acc.set(new vect(0,0.2));
+    this.Acc.set(new vect(0,0.15));
   }
   this.NextPos=function(){
       return Vadd(this.Pos,Vadd(this.Vel,Vmult(this.Acc,0.5)));
