@@ -1,4 +1,4 @@
-var ca=document.getElementById("myCanvas");
+var ca=document.getElementById("Canvas");
 var ctx=ca.getContext("2d");
 ca.height=400;
 var mouse={
