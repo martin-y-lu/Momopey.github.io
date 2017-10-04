@@ -171,7 +171,7 @@ function animate(){
            }
         }
       }
-    Balll.Update();
+    
     ctx.lineWidth=1;
     drawBall(Balll.Pos.x,Balll.Pos.y,6.5);
     drawBall(Balll.NextPos().x,Balll.NextPos().y,6.5);
@@ -180,6 +180,7 @@ function animate(){
     if(Balll.Pos.y>600){
       BList.splice(BList.length-i-1,1);
     }
+    Balll.Update();
   }
   for(var c=0;c<BList.length;c++){
     LastList.push(BList[c].Copy());
