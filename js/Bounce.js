@@ -6,7 +6,10 @@ var mouse={
 	y:0
 }
 var mousePress=false;
-window.addEventListener("mousemove",function(event){mouse.x=event.x;mouse.y=event.y;})
+window.addEventListener("mousemove",function(event){
+  mouse.x=event.x-ca.getBoundingClientRect().left;
+  mouse.y=event.y-ca.getBoundingClientRect().top;
+})
 window.addEventListener("mousedown",function(event){mousePress=true;},false);
 window.addEventListener("mouseup",function(event){mousePress=false;},false);
 function drawLine(X1,Y1,X2,Y2){
