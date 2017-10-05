@@ -2,15 +2,54 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Coda">
+  		<link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+ 		 <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 		<title>MomopeyPlace</title>
 		<link rel="stylesheet" type="text/css" href="/css/stuff.css">
 	</head>
 	<body> 
-		<canvas id="Canvas"></canvas>
+		<canvas id="Bounce"> eh</canvas>
+		  <small> Click and drag to make a line for the stream to bounce on</small>
+		  <div id="title">
+		    <h1>Simple bouncy physics thing</h1>
+		    <h2>How to program a simple collision system</h2>
+		  </div>
+		  <div class="texts">
+		   Making a physics simulation is not as easy as I thought!
+		    I spent months working on the code, 
+		    just so I could get something functional.
+		    I decided I wanted to share my "hard" work 
+		    and guide you through how my code works.
+		  </div>
+		  <div class="texts">
+		    Lets begin with the most basic things, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
+		  </div>
+		  <canvas id="Fig1" class="figs"> eh</canvas>
+		  <div class="texts">
+		    This doesnt tell us much our particle, we don't know where they are going.
+		    We need to add a velocity and acceleration.
+		  </div>
+		  <canvas id="Fig2" class="figs"> eh</canvas>
+		  <div class="texts">
+		    We have our first bit of code, setting up our particle class and telling us how to update the particle based of physics.
+		  </div>
+
+		  <div class="code">
+		    this.Update=function(){<br>
+		    &nbsp&nbsp this.Pos=this.NextPos();<br>
+		    &nbsp&nbsp this.Vel.set(Vadd(this.Vel,this.Acc));<br>
+		    &nbsp&nbsp  this.Acc.set(this.Grav);<br>
+		    }<br>
+		    this.NextPos=function(){<br>
+		    &nbsp&nbspreturn Vadd(this.Pos,Vadd(this.Vel,Vmult(this.Acc,0.5)));<br>
+		    }
+		  </div>
+
+		  </div>
+		  <canvas id="Fig3" class="figs"> eh</canvas>
+		  <div class="texts">
+		    This is when we run into the roadblock. I've shown
+		  </div>
 		<script src="/js/Bounce.js"></script>
-		<div class="title">
-			<p> Click and drag to make something for the line to bounce on</p>
-			<h1>Simple physics thing</h1>
-		</div>
 	</body>
 </html>
