@@ -9,47 +9,165 @@
 	</head>
 	<body> 
 		<canvas id="Bounce"> eh</canvas>
-		  <small> Click and drag to make a line for the stream to bounce on</small>
-		  <div id="title">
-		    <h1>Simple bouncy physics thing</h1>
-		    <h2>How to program a simple collision system</h2>
-		  </div>
-		  <div class="texts">
-		   Making a physics simulation is not as easy as I thought!
-		    I spent months working on the code, 
-		    just so I could get something functional.
-		    I decided I wanted to share my "hard" work 
-		    and guide you through how my code works.
-		  </div>
-		  <div class="texts">
-		    Lets begin with the most basic things, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
-		  </div>
-		  <canvas id="Fig1" class="figs"> eh</canvas>
-		  <div class="texts">
-		    This doesnt tell us much our particle, we don't know where they are going.
-		    We need to add a velocity and acceleration.
-		  </div>
-		  <canvas id="Fig2" class="figs"> eh</canvas>
-		  <div class="texts">
-		    We have our first bit of code, setting up our particle class and telling us how to update the particle based of physics.
-		  </div>
-
-		  <div class="code">
-		    this.Update=function(){<br>
-		    &nbsp&nbsp this.Pos=this.NextPos();<br>
-		    &nbsp&nbsp this.Vel.set(Vadd(this.Vel,this.Acc));<br>
-		    &nbsp&nbsp  this.Acc.set(this.Grav);<br>
-		    }<br>
-		    this.NextPos=function(){<br>
-		    &nbsp&nbspreturn Vadd(this.Pos,Vadd(this.Vel,Vmult(this.Acc,0.5)));<br>
-		    }
-		  </div>
-
-		  </div>
-		  <canvas id="Fig3" class="figs"> eh</canvas>
-		  <div class="texts">
-		    This is when we run into the roadblock. I've shown
-		  </div>
+			  <small> Click and drag to make a line for the stream to bounce on</small>
+			  <div id="title">
+			    <h1>Simple bouncy physics thing</h1>
+			    <h2>How to program a simple collision system</h2>
+			  </div>
+			  <div class="texts">
+			   Making a physics simulation is not as easy as I thought!
+			    I spent months working on the code, 
+			    just so I could get something functional.
+			    I decided I wanted to share my "hard" work 
+			    and guide you through how I made my code work.
+			    <br><br>
+			    Lets begin with the most basic things, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
+			  </div>
+			  <canvas id="Fig1" class="figs"> eh</canvas>
+			  <div class="texts">
+			    This doesnt tell us much our particle, we don't know where they are going.
+			    We need to add a velocity and acceleration. Take a look at where the particle goes when you change the initial velocity and accaleration.
+			  </div> 
+			  <canvas id="Fig2" class="figs"> eh</canvas>
+			  <div class="texts">
+			    We have our first bit of code. We now have a class for our particle and a few functions. 
+			    This code tells the computer how to move our particle in one unit of time. This code is running in your browser!
+			  </div>
+			  <div class="code">
+			    this.Update=function(){//Update position, velocity and acceleration<br>
+			    &nbsp&nbsp this.Pos=this.NextPos();<br>
+			    &nbsp&nbsp this.Vel.set(Vadd(this.Vel,this.Acc));<br>
+			    &nbsp&nbsp this.Acc.set(this.Grav);<br>
+			    }<br>
+			    this.NextPos=function(){ //Change position by velocity and 1/2 acceleration<br>
+			    &nbsp&nbsp  return Vadd(this.Pos,Vadd(this.Vel,Vscale(this.Acc,0.5)));<br>
+			    }
+			  </div>
+			   <div class="texts">
+			    Now that we understand how our particle works, Lets get to the hard part, the collision. 
+			    I began with the most simple solution. We say it collides when its above the line before it updates and behind the line when after.
+			     The simplest for of barrier is just a horisontal one. Try moving it around and changing some of its qualities.
+			  </div>
+			  <canvas id="Fig3" class="figs"> eh</canvas>
+			  <div class="texts">
+			    You might of noticed a few things about simulation above. This part for me was one of the roadblocks I ran into while trying to make this thing.<br>
+			    <br>
+			    Heres the faulty code that runs the simulation.
+			  </div>
+			  <div class="code">
+			  if(Wall.Collides(Ball)){<br>
+			  &nbsp&nbsp Wall.Bounce(Ball);<br>
+			  }
+			  </div>
+			  <div class="code">
+			    //This runs in the wall class<br>
+			    this.Collides=function(B){//takes a ball object<br> 
+			    &nbsp&nbsp var Cross= (B.Pos.y &lt this.Corner.y)&&(B.NextPos().y &gt this.Corner.y); //checks if it falls through<br>
+			    &nbsp&nbsp var Tween= (B.Pos.x &lt this.Corner.x)&&(B.Pos.x &gt this.Corner.x+this.length);<br>
+			    &nbsp&nbsp return Cross && Tween;<br>
+			    }<br>
+			    this.Bounce=function(B){<br>
+			    &nbsp&nbsp B.Vel.y*=-bounce;<br>
+			    &nbsp&nbsp B.Vel.x*=slide;<br>
+			    }
+			  </div>
+			  <div class="texts">
+			    Lets list out our problems-<br>
+			    <ul>
+			    <li>The physics doesn't work, the balls fall right through the line when the bounce coeficent is less than 1</li>
+			    <li>The lines can only horisontal, I want slanty slant lines</li>
+			    </ul>
+			    <br>
+			    The solution for the first issue came to me when I realised I could do something simple. 
+			    The code above has no issues, I was just missing one crucial thing. I needed to add a normal force to stop it from falling through.
+			    <br><br> 
+			    Here's what I added.
+			  </div>
+			  <div class="code">
+			    if(Wall.Collides(Ball)){<br>
+			    &nbsp&nbsp Wall.Bounce(Ball);<br>
+			    &nbsp&nbsp if(Wall.Collides(Ball)){ //Check if it <i>still</i> falls through<br>
+			    &nbsp&nbsp&nbsp&nbsp  Wall.Stablise(Ball); //Set Acc.y and Vel.y to 0<br>
+			    &nbsp&nbsp }<br>
+			    }
+			  </div>
+			  <canvas id="Fig4" class="figs"> eh</canvas>
+			  <div class="texts">
+			    Thats better.
+			    <br><br>
+			    Now that thats solved lets move on to our next problem. Having it to work for the horisontal case was so easy,
+			    if only we could rotate the whole frame to make a tilded one horisontal. It turns out you can actually do just that! 
+			    <br><br>
+			    There is actually a pair of functions that do this, vector multiplication and it's inverse, vector divison.
+			    <br><br>
+			    Look at the funcions below, find out how they work.
+			  </div>
+			  <canvas id="Fig5" class="figs"> eh</canvas>
+			  <canvas id="Fig6" class="figs"> eh</canvas>
+			   <div class="texts">
+			     The first function returns the two vectors multiplied, which looks like one of them stacked on the other.
+			      Imagine holding the point 0,0 in place and streching 
+			     the point 0,1 to a specific vector by scaling and rotating space. If we see where an other vector gets 
+			     dragged to, thats the result of multiplying them together. 
+			     <br><br>
+			     The second function is the inverse of the first, It takes a vector to the point 0,1, and sees what gets dragged along with it.
+			     <br><br>
+			     This is the code-
+			  </div>
+			  <div class="code">
+			    function Vmult(A,B){<br>
+			    &nbsp &nbsp  return new vect(A.x*B.x-A.y*B.y,A.x*B.y+A.y*B.x);<br>
+			    }<br>
+			    <br>
+			    function Vdiv(P,C){<br>
+			    &nbsp&nbsp  return new vect((C.x*P.x+C.y*P.y)/((C.x*C.x)+(C.y*C.y)),<br>
+			    &nbsp&nbsp    (C.x*P.y-C.y*P.x)/((C.x*C.x)+(C.y*C.y)));<br>
+			    }<br>
+			  </div>
+			  <div class="texts">
+			    These functions are usefull because we can use the division one do take a specific vector to 1,0 ,making it horisontal.
+			    Then we can multiply by the same vector to return it to its original state.
+			    This allows us to use the code we already made for the horisontal case, for all cases.
+			    <br><br>
+			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier to out wall class.
+			    The new code for the Collides ,Bounce and Stabilise functions look like this. 
+			  </div>
+			  <div class="code">
+			  this.Collides=function(Ball){<br>
+			    var Posr=Vdiv(Vadd(Ball.Pos,Vscale(Corner,-1)),Base); //Flattened Pos<br>
+			    var Nextr=Vdiv(Vadd(Ball.NextPos(),Vscale(Corner,-1)),Base)//Flattened nextPos;<br>
+			    var C1=((Posr.y&gt 0)&&(Nextr.y&lt 0));<br>
+			    var C2=((Posr.y&lt0)&&(Nextr.y&gt 0));<br>
+			    var C3=((Posr.y===0)&&(Nextr.y&lt 0));<br>
+			    var C4=((Nextr.y===0)&&(Posr.y&gt 0));<br>
+			    var C5=((Posr.y===0)&&(Nextr.y===0));<br>
+			    var Tween=((Posr.x&gt=0)&&(Posr.x&lt =1))||((Nextr.x&gt =0)&&(Nextr.x&lt=1));<br>
+			    return (C1||C2||C3||C4||C5)&&Tween;<br>
+			  }<br>
+			  this.Bounce=function(Ball){<br>
+			   &nbsp&nbsp var Rvel=Vdiv(Ball.Vel,Base);// Rotated Vel<br>
+			   &nbsp&nbsp var RAcc=Vdiv(Ball.Acc,Base);// Rotated Acc<br>
+			   &nbsp&nbsp Rvel.y*=-this.bounce;<br>
+			   &nbsp&nbsp Rvel.x*=this.slide;<br>
+			   &nbsp&nbsp Ball.Vel=Vmult(Rvel,Base);// Undo rotation<br>
+			   &nbsp&nbsp Ball.Acc=Vmult(RAcc,Base);<br>
+			  }<br>
+			  this.Stablise=function(Ball){<br>
+			   &nbsp&nbsp var RVel=Vdiv(Ball.Vel,Base);<br>
+			   &nbsp&nbsp RVel.y=0;<br>
+			   &nbsp&nbsp Ball.Vel=Vmult(RVel,Base); <br>
+			   &nbsp&nbsp var RACc=Vdiv(Ball.Acc,Base);<br>
+			   &nbsp&nbsp RACc.y=0;<br>
+			   &nbsp&nbsp Ball.Acc=Vx(RACc,Base); <br>
+			  }
+			  </div>
+			  <div class="texts">
+			  Heres what it looks like-
+			  </div>
+			  <canvas id="Fig7" class="figs"> eh</canvas>
+			  <div class="texts">
+			     And thats it, thats how the thing works!
+			  </div>
 		<script src="/js/Bounce.js"></script>
 	</body>
 </html>
