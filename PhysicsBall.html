@@ -26,7 +26,7 @@
 			  <canvas id="Fig1" class="figs"> eh</canvas>
 			  <div class="texts">
 			    This doesnt tell us much our particle, we don't know where they are going.
-			    We need to add a velocity and acceleration. Take a look at where the particle goes when you change the initial velocity and accaleration.
+			    We need to add a velocity and acceleration. Take a look at where the particle goes when you change the initial velocity and acceleration.
 			  </div> 
 			  <canvas id="Fig2" class="figs"> eh</canvas>
 			  <div class="texts">
@@ -45,7 +45,7 @@
 			  </div>
 			   <div class="texts">
 			    Now that we understand how our particle works, Lets get to the hard part, the collision. 
-			    I began with the most simple solution. We say it collides when its above the line before it updates and behind the line when after.
+			    I began with the most simple solution. We say it collides when its above the line before it updates and underneath the line when after.
 			     The simplest for of barrier is just a horisontal one. Try moving it around and changing some of its qualities.
 			  </div>
 			  <canvas id="Fig3" class="figs"> eh</canvas>
@@ -74,8 +74,8 @@
 			  <div class="texts">
 			    Lets list out our problems-<br>
 			    <ul>
-			    <li>The physics doesn't work, the balls fall right through the line when the bounce coeficent is less than 1</li>
-			    <li>The lines can only horisontal, I want slanty slant lines</li>
+			    <li>The physics doesn't work, the balls fall right through the line when the bounce coefficient is less than 1</li>
+			    <li>The lines can only horisontal, I want the lines to work at all angles!</li>
 			    </ul>
 			    <br>
 			    The solution for the first issue came to me when I realised I could do something simple. 
@@ -110,7 +110,7 @@
 			     the point 0,1 to a specific vector by scaling and rotating space. If we see where an other vector gets 
 			     dragged to, thats the result of multiplying them together. 
 			     <br><br>
-			     The second function is the inverse of the first, It takes a vector to the point 0,1, and sees what gets dragged along with it.
+			     The second function is the inverse of the first, It takes a vector to the point 0,1, and sees how another gets dragged along with it.
 			     <br><br>
 			     This is the code-
 			  </div>
@@ -129,7 +129,7 @@
 			    Then we can multiply by the same vector to return it to its original state.
 			    This allows us to use the code we already made for the horisontal case, for all cases.
 			    <br><br>
-			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier to out wall class.
+			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier length to the wall class.
 			    The new code for the Collides ,Bounce and Stabilise functions look like this. 
 			  </div>
 			  <div class="code">
@@ -149,15 +149,15 @@
 			   &nbsp&nbsp var RAcc=Vdiv(Ball.Acc,Base);// Rotated Acc<br>
 			   &nbsp&nbsp Rvel.y*=-this.bounce;<br>
 			   &nbsp&nbsp Rvel.x*=this.slide;<br>
-			   &nbsp&nbsp Ball.Vel=Vmult(Rvel,Base);// Undo rotation<br>
+			   &nbsp&nbsp Ball.Vel=Vmult(Rvel,Base);// Undo rotations<br>
 			   &nbsp&nbsp Ball.Acc=Vmult(RAcc,Base);<br>
 			  }<br>
 			  this.Stablise=function(Ball){<br>
-			   &nbsp&nbsp var RVel=Vdiv(Ball.Vel,Base);<br>
-			   &nbsp&nbsp RVel.y=0;<br>
-			   &nbsp&nbsp Ball.Vel=Vmult(RVel,Base); <br>
+			   &nbsp&nbsp var RVel=Vdiv(Ball.Vel,Base);//Rotate frame<br>
 			   &nbsp&nbsp var RACc=Vdiv(Ball.Acc,Base);<br>
+			   &nbsp&nbsp RVel.y=0; //Stablise<br>
 			   &nbsp&nbsp RACc.y=0;<br>
+			   &nbsp&nbsp Ball.Vel=Vmult(RVel,Base);//Undo rotation <br>  
 			   &nbsp&nbsp Ball.Acc=Vx(RACc,Base); <br>
 			  }
 			  </div>
