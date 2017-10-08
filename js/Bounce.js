@@ -739,7 +739,7 @@ function animateF7(){
         MWall.Bounce(WallBalls3);
         if(MWall.Collides(WallBalls3)){
           MWall.Stablise(WallBalls3);
-           F7.strokeStyle='rgba('+255*(40-Loopdraw)/40+",0,0,1)';
+           F7.strokeStyle='rgba('+255*(40-Loopdraw)/40+",0,0,1)";
         }
       }
       drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
