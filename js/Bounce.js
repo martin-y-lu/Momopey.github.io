@@ -437,7 +437,7 @@ var SlideClick2=new Hold();
 var WallBalls2=MBall.CopyBall();
 var WallCornClick2=new Hold();
 var WallEndClick2=new Hold();
-ca4.height=250;
+ca4.height=650;
 function animateF4(){
   ca4.width=innerWidth*60/100;
   requestAnimationFrame(animateF4);
