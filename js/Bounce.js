@@ -384,9 +384,10 @@ function animateF3(){
         drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
         FlatWall.Bounce(WallBalls);
       }
+      F3.strokeStyle='rgba('+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+',1)';
       drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
       WallBalls.Update();
-      F3.strokeStyle='rgba('+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+',1)';
+     
       lineBall(WallBalls.Pos.x*20,WallBalls.Pos.y*20,10,F3);
     }
   
