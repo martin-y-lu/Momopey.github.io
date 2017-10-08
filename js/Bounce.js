@@ -386,7 +386,6 @@ function animateF3(){
       }
       drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
       WallBalls.Update();
-     
       lineBall(WallBalls.Pos.x*20,WallBalls.Pos.y*20,10,F3);
     }
   
@@ -494,6 +493,8 @@ function animateF4(){
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
           F4.strokeStyle='rgba('+255*(40-Loopdraw)/40+',0,0,1)';
+        }else{
+          F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
         }
       }
       drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
@@ -739,6 +740,8 @@ function animateF7(){
         if(MWall.Collides(WallBalls3)){
           MWall.Stablise(WallBalls3);
            F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
+        }else{
+          F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
         }
       }
       drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
