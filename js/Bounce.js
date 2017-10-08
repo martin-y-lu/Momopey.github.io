@@ -379,12 +379,11 @@ function animateF3(){
     FlatWall=MWall.CopyWall();
     FlatWall.Base.y=0;
       for(var Loopdraw=0;Loopdraw<30;Loopdraw++){
-      F3.strokeStyle='rgba(150,150,150,1)';
+       F3.strokeStyle='rgba('+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+',1)';
       if(FlatWall.Collides(WallBalls)){
         drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
         FlatWall.Bounce(WallBalls);
       }
-      F3.strokeStyle='rgba('+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+","+255*(30-Loopdraw)/30+',1)';
       drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
       WallBalls.Update();
      
@@ -488,7 +487,7 @@ function animateF4(){
     FlatWall=MWall.CopyWall();
     FlatWall.Base.y=0;
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
-      F4.strokeStyle='rgba('+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+',1)';
+      F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
       if(FlatWall.Collides(WallBalls2)){
         drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
         FlatWall.Bounce(WallBalls2);
@@ -733,7 +732,7 @@ function animateF7(){
     F7.lineWidth=2;
     WallBalls3=MBall.CopyBall();
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
-      F7.strokeStyle='rgba('+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+',1)';
+      F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
       if(MWall.Collides(WallBalls3)){
         drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
         MWall.Bounce(WallBalls3);
@@ -744,7 +743,6 @@ function animateF7(){
       }
       drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
       WallBalls3.Update();
-      
       lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
     }
   
