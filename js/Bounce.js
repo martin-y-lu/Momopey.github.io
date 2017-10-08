@@ -368,7 +368,7 @@ function animateF3(){
     if(WallCornClick.Holding){
       MWall.Corner.set(Vmult(mouseDoc(ca3),1/20));
     }
-    WallEndClick.Started(tween(MWall.Corner.x*20+MWall.Base.x*20-10,MWall.Corner.x*20+MWall.Base.x*20+10,mouseDoc(ca3).x)&&tween(MWall.Corner.y*20+MWall.Base.y*20-10,MWall.Corner.y*20+MWall.Base.y*20+10,mouseDoc(ca3).y)&&mousePress);
+    WallEndClick.Started(tween(FlatWall.Corner.x*20+FlatWall.Base.x*20-10,FlatWall.Corner.x*20+FlatWall.Base.x*20+10,mouseDoc(ca3).x)&&tween(FlatWall.Corner.y*20+FlatWall.Base.y*20-10,FlatWall.Corner.y*20+FlatWall.Base.y*20+10,mouseDoc(ca3).y)&&mousePress);
     WallEndClick.Continuing(mousePress);
     if(WallEndClick.Holding){
       MWall.Base.x=mouseDoc(ca3).x/20-MWall.Corner.x
@@ -475,7 +475,7 @@ function animateF4(){
     if(WallCornClick2.Holding){
       MWall.Corner.set(Vmult(mouseDoc(ca4),1/20));
     }
-    WallEndClick2.Started(tween(MWall.Corner.x*20+MWall.Base.x*20-10,MWall.Corner.x*20+MWall.Base.x*20+10,mouseDoc(ca4).x)&&tween(MWall.Corner.y*20+MWall.Base.y*20-10,MWall.Corner.y*20+MWall.Base.y*20+10,mouseDoc(ca4).y)&&mousePress);
+    WallEndClick2.Started(tween(FlatWall.Corner.x*20+FlatWall.Base.x*20-10,FlatWall.Corner.x*20+FlatWall.Base.x*20+10,mouseDoc(ca4).x)&&tween(FlatWall.Corner.y*20+FlatWall.Base.y*20-10,FlatWall.Corner.y*20+FlatWall.Base.y*20+10,mouseDoc(ca4).y)&&mousePress);
     WallEndClick2.Continuing(mousePress);
     if(WallEndClick2.Holding){
       MWall.Base.x=mouseDoc(ca4).x/20-MWall.Corner.x
