@@ -381,6 +381,7 @@ function animateF3(){
       for(var Loopdraw=0;Loopdraw<30;Loopdraw++){
       F3.strokeStyle='rgba(150,150,150,1)';
       if(FlatWall.Collides(WallBalls)){
+        drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
         FlatWall.Bounce(WallBalls);
       }
       drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
@@ -488,6 +489,7 @@ function animateF4(){
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
       F4.strokeStyle='rgba(150,150,150,1)';
       if(FlatWall.Collides(WallBalls2)){
+        drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
         FlatWall.Bounce(WallBalls2);
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
@@ -731,6 +733,7 @@ function animateF7(){
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
       F7.strokeStyle='rgba(150,150,150,1)';
       if(MWall.Collides(WallBalls3)){
+        drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
         MWall.Bounce(WallBalls3);
         if(MWall.Collides(WallBalls3)){
           MWall.Stablise(WallBalls3);
