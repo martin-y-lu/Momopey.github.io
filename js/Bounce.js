@@ -493,6 +493,7 @@ function animateF4(){
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
           F4.strokeStyle='rgba('+255*(40-Loopdraw)/40+',0,0,1)';
+          F4.fillText("heyhey",WallBalls2.Pos.x*20+20,WallBalls2.Pos.y*20+20);
         }else{
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
         }
