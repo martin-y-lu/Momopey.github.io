@@ -33,3 +33,18 @@ canvas {
 h1{
     font-size: 36px;
 }
+h1{
+    font-size: 36px;
+}
+a:link {
+    color: white;
+    text-decoration:  none;
+}
+a:visited {
+    color: RGB(250,200,200);
+    text-decoration:  none;
+}
+a:hover {
+    color: RGB(250,230,230);
+    text-decoration:  none;
+}
