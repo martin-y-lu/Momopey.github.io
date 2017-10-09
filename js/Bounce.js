@@ -385,8 +385,8 @@ function animateF3(){
         FlatWall.Bounce(WallBalls);
       }
       drawLine(WallBalls.Pos.x*20,WallBalls.Pos.y*20,WallBalls.NextPos().x*20,WallBalls.NextPos().y*20,F3);
-      WallBalls.Update();
       lineBall(WallBalls.Pos.x*20,WallBalls.Pos.y*20,10,F3);
+      WallBalls.Update();
     }
   
     F3.strokeStyle='rgba(100,100,100,1)'
@@ -486,22 +486,23 @@ function animateF4(){
     FlatWall=MWall.CopyWall();
     FlatWall.Base.y=0;
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
-      F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
       if(FlatWall.Collides(WallBalls2)){
         drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
         FlatWall.Bounce(WallBalls2);
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
-          lineBall(WallBalls2.Pos.x*20+20,WallBalls2.Pos.y*20+20,10,F4);
+          lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
         }else{
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
+          lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
         }
+      }else{
+       F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
+       lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
       }
       drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
       WallBalls2.Update();
-      
-      lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
     }
   
     F4.strokeStyle='rgba(100,100,100,1)'
@@ -734,20 +735,23 @@ function animateF7(){
     F7.lineWidth=2;
     WallBalls3=MBall.CopyBall();
     for(var Loopdraw=0;Loopdraw<40;Loopdraw++){
-      F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
       if(MWall.Collides(WallBalls3)){
         drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
         MWall.Bounce(WallBalls3);
         if(MWall.Collides(WallBalls3)){
           MWall.Stablise(WallBalls3);
            F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
+          lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
         }else{
           F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
+          lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
         }
+      }else{
+        F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
+        lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
       }
       drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
       WallBalls3.Update();
-      lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
     }
   
     F7.strokeStyle='rgba(100,100,100,1)'
