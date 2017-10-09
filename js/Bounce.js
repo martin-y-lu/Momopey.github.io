@@ -504,7 +504,8 @@ function animateF4(){
       drawLine(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,WallBalls2.NextPos().x*20,WallBalls2.NextPos().y*20,F4);
       WallBalls2.Update();
     }
-  
+    F4.lineWidth=2;
+    F4.fillStyle = "white";
     F4.strokeStyle='rgba(100,100,100,1)'
     for(var linesY=0;linesY<MBall.Pos.y-0.5;linesY++){
       drawLine(MBall.Pos.x*20-5,linesY*20,MBall.Pos.x*20+5,linesY*20,F4);
@@ -518,7 +519,6 @@ function animateF4(){
     F4.strokeStyle='rgba(255,255,255,1)';
     lineBall(MBall.Pos.x*20,MBall.Pos.y*20,10,F4);
     F4.lineWidth=3;
-    F4.fillStyle = "white";
     drawLine(MBall.Pos.x*20,MBall.Pos.y*20,MBall.Pos.x*20+MBall.Vel.x*20,MBall.Pos.y*20+MBall.Vel.y*20,F4);
     drawLine(MBall.Pos.x*20,MBall.Pos.y*20,MBall.Pos.x*20+MBall.Acc.x*20,MBall.Pos.y*20+MBall.Acc.y*20,F4);
     fillBall(MBall.Pos.x*20+MBall.Vel.x*20,MBall.Pos.y*20+MBall.Vel.y*20,2,F4);
@@ -765,6 +765,7 @@ function animateF7(){
     drawLine(0,MBall.Pos.y*20,MBall.Pos.x*20-10,MBall.Pos.y*20,F7);
   
     F7.strokeStyle='rgba(255,255,255,1)';
+    F7.lineWidth=2;
     lineBall(MBall.Pos.x*20,MBall.Pos.y*20,10,F7);
     F7.lineWidth=3;
     F7.fillStyle = "white";
