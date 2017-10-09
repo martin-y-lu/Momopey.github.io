@@ -437,7 +437,7 @@ var SlideClick2=new Hold();
 var WallBalls2=MBall.CopyBall();
 var WallCornClick2=new Hold();
 var WallEndClick2=new Hold();
-ca4.height=650;
+ca4.height=250;
 function animateF4(){
   ca4.width=innerWidth*60/100;
   requestAnimationFrame(animateF4);
@@ -492,8 +492,8 @@ function animateF4(){
         FlatWall.Bounce(WallBalls2);
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
-          F4.strokeStyle='rgba('+255*(40-Loopdraw)/40+',0,0,1)';
-          F4.fillText("heyhey",WallBalls2.Pos.x*20+20,WallBalls2.Pos.y*20+20);
+          F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
+          lineBall(WallBalls2.Pos.x*20+20,WallBalls2.Pos.y*20+20,10,F4);
         }else{
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
         }
