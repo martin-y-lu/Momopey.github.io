@@ -443,19 +443,19 @@ function animateF4(){
   requestAnimationFrame(animateF4);
   if(ElementOffScreen(ca4)===false){
     VelClick3.Started((tween((MBall.Pos.x+MBall.Vel.x)*20+10,(MBall.Pos.x+MBall.Vel.x)*20-10,mouseDoc(ca4).x)&&
-          tween((MBall.Pos.y+MBall.Vel.y)*20+10,(MBall.Pos.y+MBall.Vel.y)*20-10,mouseDoc(ca4).y))&&mousePress&&((Clicks4.Holding||AccClick3.Holding)===false));
+          tween((MBall.Pos.y+MBall.Vel.y)*20+10,(MBall.Pos.y+MBall.Vel.y)*20-10,mouseDoc(ca4).y))&&mousePress&&((Clicks4.Holding||AccClick3.Holding||WallCornClick.Holding||WallEndClick.Holding)===false));
     VelClick3.Continuing(mousePress&&mouseInCanvas(ca4));
     if(VelClick3.Holding){
        MBall.Vel.set(Vmult(Vadd(mouseDoc(ca4),Vmult(MBall.Pos,-20)),1/20));
     }
     AccClick3.Started((tween((MBall.Pos.x+MBall.Acc.x)*20+10,(MBall.Pos.x+MBall.Acc.x)*20-10,mouseDoc(ca4).x)&&
-          tween((MBall.Pos.y+MBall.Acc.y)*20+10,(MBall.Pos.y+MBall.Acc.y)*20-10,mouseDoc(ca4).y))&&mousePress&&((Clicks4.Holding||VelClick3.Holding)===false));
+          tween((MBall.Pos.y+MBall.Acc.y)*20+10,(MBall.Pos.y+MBall.Acc.y)*20-10,mouseDoc(ca4).y))&&mousePress&&((Clicks4.Holding||VelClick3.Holding||WallCornClick.Holding||WallEndClick.Holding)===false));
     AccClick3.Continuing(mousePress&&mouseInCanvas(ca4));
     if(AccClick3.Holding){
       MBall.Acc.set(Vmult(Vadd(mouseDoc(ca4),Vmult(MBall.Pos,-20)),1/20));
     }
     Clicks4.Started((tween((MBall.Pos.x*20)+10,(MBall.Pos.x*20)-10,mouseDoc(ca4).x)&&
-          tween((MBall.Pos.y*20)+10,(MBall.Pos.y*20)-10,mouseDoc(ca4).y))&&mousePress&&((VelClick3.Holding||AccClick3.Holding)===false));
+          tween((MBall.Pos.y*20)+10,(MBall.Pos.y*20)-10,mouseDoc(ca4).y))&&mousePress&&((VelClick3.Holding||AccClick3.Holding||WallCornClick.Holding||WallEndClick.Holding)===false));
     Clicks4.Continuing(mousePress&&mouseInCanvas(ca4));
     if(Clicks4.Holding){
       MBall.Pos.set(Vmult(mouseDoc(ca4),1/20));
@@ -471,13 +471,13 @@ function animateF4(){
       MWall.slide=(mouseDoc(ca4).y-40)/100;
     }
     WallCornClick2.Started(tween(MWall.Corner.x*20-10,MWall.Corner.x*20+10,mouseDoc(ca4).x)&&tween(MWall.Corner.y*20-10,MWall.Corner.y*20+10,mouseDoc(ca4).y)&&mousePress
-                          &&((VelClick3.Holding||AccClick3.Holding||BounceClick2.Holding||SlideClick.Holding||WallEndClick2.Holding)===false));
+                          &&((VelClick3.Holding||AccClick3.Holding||BounceClick2.Holding||WallEndClick2.Holding)===false));
     WallCornClick2.Continuing(mousePress&&mouseInCanvas(ca4));
     if(WallCornClick2.Holding){
       MWall.Corner.set(Vmult(mouseDoc(ca4),1/20));
     }
     WallEndClick2.Started(tween(FlatWall.Corner.x*20+FlatWall.Base.x*20-10,FlatWall.Corner.x*20+FlatWall.Base.x*20+10,mouseDoc(ca4).x)&&tween(FlatWall.Corner.y*20+FlatWall.Base.y*20-10,FlatWall.Corner.y*20+FlatWall.Base.y*20+10,mouseDoc(ca4).y)&&mousePress
-                         &&((VelClick3.Holding||AccClick3.Holding||BounceClick2.Holding||SlideClick.Holding||WallCornClick2.Holding)===false));
+                         &&((VelClick3.Holding||AccClick3.Holding||BounceClick2.Holding||WallCornClick2.Holding)===false));
     WallEndClick2.Continuing(mousePress&&mouseInCanvas(ca4));
     if(WallEndClick2.Holding){
       MWall.Base.x=mouseDoc(ca4).x/20-MWall.Corner.x
