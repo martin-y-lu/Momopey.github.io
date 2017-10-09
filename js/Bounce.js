@@ -471,12 +471,12 @@ function animateF4(){
       MWall.slide=(mouseDoc(ca4).y-40)/100;
     }
     WallCornClick2.Started(tween(MWall.Corner.x*20-10,MWall.Corner.x*20+10,mouseDoc(ca4).x)&&tween(MWall.Corner.y*20-10,MWall.Corner.y*20+10,mouseDoc(ca4).y)&&mousePress);
-    WallCornClick2.Continuing(mousePress);
+    WallCornClick2.Continuing(mousePress&&mouseInCanvas(ca4));
     if(WallCornClick2.Holding){
       MWall.Corner.set(Vmult(mouseDoc(ca4),1/20));
     }
     WallEndClick2.Started(tween(FlatWall.Corner.x*20+FlatWall.Base.x*20-10,FlatWall.Corner.x*20+FlatWall.Base.x*20+10,mouseDoc(ca4).x)&&tween(FlatWall.Corner.y*20+FlatWall.Base.y*20-10,FlatWall.Corner.y*20+FlatWall.Base.y*20+10,mouseDoc(ca4).y)&&mousePress);
-    WallEndClick2.Continuing(mousePress);
+    WallEndClick2.Continuing(mousePress&&mouseInCanvas(ca4));
     if(WallEndClick2.Holding){
       MWall.Base.x=mouseDoc(ca4).x/20-MWall.Corner.x
     }
@@ -491,9 +491,8 @@ function animateF4(){
         FlatWall.Bounce(WallBalls2);
         if(FlatWall.Collides(WallBalls2)){
           FlatWall.Stablise(WallBalls2);
-          F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
-          lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
-          lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20+20,10,F4);
+          F4.fillStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
+          fillBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
         }else{
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
           lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
@@ -741,8 +740,8 @@ function animateF7(){
         MWall.Bounce(WallBalls3);
         if(MWall.Collides(WallBalls3)){
           MWall.Stablise(WallBalls3);
-           F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
-          lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
+          F7.fillStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
+          fillBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
         }else{
           F7.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
           lineBall(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,10,F7);
