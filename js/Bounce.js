@@ -493,6 +493,7 @@ function animateF4(){
           FlatWall.Stablise(WallBalls2);
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+",0,0,1)";
           lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
+          lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20+20,10,F4);
         }else{
           F4.strokeStyle="rgba("+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+","+255*(40-Loopdraw)/40+",1)";
           lineBall(WallBalls2.Pos.x*20,WallBalls2.Pos.y*20,10,F4);
