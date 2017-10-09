@@ -723,14 +723,12 @@ function animateF7(){
     if(SlideClick3.Holding){
       MWall.slide=(mouseDoc(ca7).y-40)/100;
     }
-    WallCornClick2.Started(tween(MWall.Corner.x*20-10,MWall.Corner.x*20+10,mouseDoc(ca7).x)&&tween(MWall.Corner.y*20-10,MWall.Corner.y*20+10,mouseDoc(ca7).y)&&mousePress
-                          &&((VelClick4.Holding||AccClick4.Holding||BounceClick3.Holding||SlideClick3.Holding||WallEndClick2.Holding)===false));
+    WallCornClick2.Started(tween(MWall.Corner.x*20-10,MWall.Corner.x*20+10,mouseDoc(ca7).x)&&tween(MWall.Corner.y*20-10,MWall.Corner.y*20+10,mouseDoc(ca7).y)&&mousePress);
     WallCornClick2.Continuing(mousePress);
     if(WallCornClick2.Holding){
       MWall.Corner.set(Vmult(mouseDoc(ca7),1/20));
     }
-    WallEndClick2.Started(tween(MWall.Corner.x*20+MWall.Base.x*20-10,MWall.Corner.x*20+MWall.Base.x*20+10,mouseDoc(ca7).x)&&tween(MWall.Corner.y*20+MWall.Base.y*20-10,MWall.Corner.y*20+MWall.Base.y*20+10,mouseDoc(ca7).y)&&mousePress
-                        &&((VelClick4.Holding||AccClick4.Holding||BounceClick3.Holding||SlideClick3.Holding||WallCornlick2.Holding)===false));
+    WallEndClick2.Started(tween(MWall.Corner.x*20+MWall.Base.x*20-10,MWall.Corner.x*20+MWall.Base.x*20+10,mouseDoc(ca7).x)&&tween(MWall.Corner.y*20+MWall.Base.y*20-10,MWall.Corner.y*20+MWall.Base.y*20+10,mouseDoc(ca7).y)&&mousePress);
     WallEndClick2.Continuing(mousePress);
     if(WallEndClick2.Holding){
       MWall.Base.set(Vadd(Vmult(mouseDoc(ca7),1/20),Vmult(MWall.Corner,-1)));
