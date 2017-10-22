@@ -1,1 +1,54 @@
+body{
+  font-family:Coda,sans-serif;
+  margin: 0;
+  background: white;
+}
+canvas{
+  background: black ;
+  border-bottom: 5px solid RGB(250,100,100);
+  
+}
+#title{
+    padding-left: 60px;
+    padding-bottom: 20px;
+    margin: 0px;
+    Line-Height: 15px;
+}
+.figs{
+  margin-left: 120px;
+} 
+.code{
+  font-family:Source Code Pro,sans-serif;
+  font-weight: 700;
+  color:RGB(30,15,15); 
+  background:RGB(255,220,220); 
+  border-radius:5px;
+  padding: 6px;
+  margin-left: 120px;
+  margin-right: 20px;
+  margin-top:0px;
+  margin-bottom: 10px;
+  width:60%
+}
+.texts{
+    font-family:Mukta,sans-serif;
+    padding-top: 5px;
+    padding-left: 120px;
+    padding-right: 100px;
+    padding-bottom: 30px;
+    margin: 0px;
+    max-width:60%;
+    Line-Height: 25px;
+    font-size: 20px;
 
+}
+small{
+  font-size: 13px;
+  padding-left: 15px;
+}
+h1{
+  font-size: 40px;
+}
+h2{
+  font-size: 18px;
+}
