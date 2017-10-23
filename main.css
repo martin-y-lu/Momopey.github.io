@@ -24,14 +24,11 @@
 .post{
   border: 5px solid RGB(150,10,10);
   border-radius:8px;
-  padding: 8px;
+  padding-left: 8px;
 }
 canvas {
    position: absolute;
    background-color: white;
-}
-h1{
-    font-size: 36px;
 }
 h1{
     font-size: 36px;
