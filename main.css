@@ -23,7 +23,7 @@
 }
 .post{
   border: 5px solid RGB(150,10,10);
-  width-160
+  width: 160;
   border-radius:8px;
   padding-left: 8px;
 }
