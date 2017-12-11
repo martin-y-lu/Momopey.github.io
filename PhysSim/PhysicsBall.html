@@ -16,13 +16,15 @@
 			    <h2>How to program a simple collision system</h2>
 			  </div>
 			  <div class="texts">
+          Pretty fun right? Here's an explaination of what's happening behind that canvas.
+			   <br><br>
 			   Making a physics simulation is not as easy as I thought!
 			    I spent months working on the code, 
 			    just so I could get something functional.
 			    I decided I wanted to share my "hard" work 
 			    and guide you through how I made my code work.
 			    <br><br>
-			    Lets begin with the most basic things, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
+			    Lets begin with the most basic, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
 			  </div>
 			  <canvas id="Fig1" class="figs"> eh</canvas>
 			  <div class="texts">
@@ -47,7 +49,11 @@
 			   <div class="texts">
 			    Now that we understand how our particle works, Lets get to the hard part, the collision. 
 			    I began with the most simple solution. We say it collides when its above the line before it updates and underneath the line when after.
-			     The simplest for of barrier is just a horisontal one. Try moving it around and changing some of its qualities.
+			     The simplest solution for the barrier is just a horisontal one.
+           <br>
+           <br>
+           Also, like in real life, our barrier should have some friction, and     bounce.
+           Try moving it around and changing some of its qualities.
 			  </div>
 			  <canvas id="Fig3" class="figs"> eh</canvas>
 			  <div class="texts">
@@ -63,11 +69,13 @@
 			  <div class="code">
 			    //This runs in the wall class<br>
 			    this.Collides=function(B){//takes a ball object<br> 
-			    &nbsp&nbsp var Cross= (B.Pos.y &lt this.Corner.y)&&(B.NextPos().y &gt this.Corner.y); //checks if it falls through<br>
+			    &nbsp&nbsp var Cross= (B.Pos.y &lt this.Corner.y)&&(B.NextPos().y &gt this.Corner.y); 
+          <br>
+          &nbsp&nbsp //checks if it falls through<br>
 			    &nbsp&nbsp var Tween= (B.Pos.x &lt this.Corner.x)&&(B.Pos.x &gt this.Corner.x+this.length);<br>
 			    &nbsp&nbsp return Cross && Tween;<br>
 			    }<br>
-			    this.Bounce=function(B){<br>
+			    this.Bounce=function(B){//The bounce<br>
 			    &nbsp&nbsp B.Vel.y*=-bounce;<br>
 			    &nbsp&nbsp B.Vel.x*=slide;<br>
 			    }
@@ -75,12 +83,12 @@
 			  <div class="texts">
 			    Lets list out our problems-<br>
 			    <ul>
-			    <li>The physics doesn't work, the balls fall right through the line when the bounce coefficient is less than 1</li>
+			    <li>The physics doesn't work, the balls fall right through the line when the bounce coefficient is less than one.</li>
 			    <li>The lines can only horisontal, I want the lines to work at all angles!</li>
 			    </ul>
 			    <br>
 			    The solution for the first issue came to me when I realised I could do something simple. 
-			    The code above has no issues, I was just missing one crucial thing. I needed to add a normal force to stop it from falling through.
+			    The code above has no issues, I was just missing one crucial thing. I needed to add a normal force to stop it from falling through. A normal force is a force the push an object exerts on an object resting on it, to counter gravity, just what we need.
 			    <br><br> 
 			    Here's what I added. (The particle becomes red when it gets stablised)
 			  </div>
@@ -102,7 +110,7 @@
 			    <br><br>
 			    There is actually a pair of functions that do this, vector multiplication and it's inverse, vector divison.
 			    <br><br>
-			    Look at the funcions below, find out how they work.
+			    Look at the functions below, find out how they work.
 			  </div>
 			  <canvas id="Fig5" class="figs"> eh</canvas>
 			  <canvas id="Fig6" class="figs"> eh</canvas>
@@ -114,7 +122,8 @@
 			     <br><br>
 			     The second function is the inverse of the first, It takes a vector to the point 0,1, and sees how another gets dragged along with it.
 			     These functions actualy have a connection with imaginary numbers.
-				   <a href="http://polytrope.com/simplenumbers/"> If you want to see that ,check this out</a>
+           If you want to see a cool demonstration of that,
+				   <a href="http://polytrope.com/simplenumbers/"> check this out.</a>
 			     <br><br>
 			     This is the code-
 			  </div>
@@ -133,14 +142,14 @@
 			    Then we can multiply by the same vector to return it to its original state.
 			    This allows us to use the code we already made for the horisontal case, for all cases.
 			    <br><br>
-			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier length to the wall class.
+			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier direction to the wall class.
 			    The new code for the Collides ,Bounce and Stabilise functions look like this. 
 			  </div>
 			  <div class="code">
 			  this.Collides=function(Ball){<br>
 			    var Posr=Vdiv(Vadd(Ball.Pos,Vscale(Corner,-1)),Base); //Flattened Pos<br>
 			    var Nextr=Vdiv(Vadd(Ball.NextPos(),Vscale(Corner,-1)),Base)//Flattened nextPos;<br>
-			    var C1=((Posr.y&gt 0)&&(Nextr.y&lt 0));<br>
+			    var C1=((Posr.y&gt 0)&&(Nextr.y&lt 0));//Check all the combos<br>
 			    var C2=((Posr.y&lt0)&&(Nextr.y&gt 0));<br>
 			    var C3=((Posr.y===0)&&(Nextr.y&lt 0));<br>
 			    var C4=((Nextr.y===0)&&(Posr.y&gt 0));<br>
@@ -171,6 +180,11 @@
 			  <canvas id="Fig7" class="figs"> eh</canvas>
 			  <div class="texts">
 			     And thats it, thats how the thing works, for the most part!
+          <br>
+          <br>
+          Of course, it is not really that simple. I did leave out a lot of things like checking collision between multiple barriers, but thats for an other time.
+           <br><br><br><br>
+           Hope you enjoyed my strange thingy! If you did, you can go back to the main page to see more stuff like this. &nbsp&nbsp (When I finish making them, that is)
 			  </div>
 		<script src="/PhysSim/Bounce.js"></script>
 		<a href="https://momopey.github.io/"> Back to main page </a>
