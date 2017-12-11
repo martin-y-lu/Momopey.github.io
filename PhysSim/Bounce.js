@@ -1,3 +1,4 @@
+// I'm never touching this rotten spegetti ever again.
 var mouse={x:0,y:0}
 var mousePress=false;
 window.addEventListener("mousedown",function(event){mousePress=true;},false);
@@ -67,7 +68,9 @@ function Vdiv(P,C){
 function tween(T,B,M){
   return ((M<=T)&&(M>=B))||((M>=T)&&(M<=B));
 }
-
+function Vlength(P){// Length/ distance of vector
+  return Math.sqrt(P.x*P.x+P.y*P.y);
+}
 
 function ball(Pos,Vel,Acc){
   this.Pos=Pos;
@@ -159,6 +162,8 @@ var BList=[];
 var WList=[];
 var T=0;
 var Creating=new Hold();
+var LastPress=false;
+var ButtonState=true;
 function animateBounce(){
   requestAnimationFrame(animateBounce);
   if(ElementOffScreen(ca)===false){
@@ -166,25 +171,46 @@ function animateBounce(){
     T++;
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     ctx.fillStyle = "white";
-    ctx.fillText(T,10,50);
-    ctx.fillText(BList.length,10,60);
     Creating.Started(mousePress);
     Creating.Continuing(mousePress&&mouseInCanvas(ca));
+    
+    
     if(Creating.Starts){
       WList.push(new wall(mouseDoc(ca),new vect(0,0),0.8,0.8));
     }
     if(Creating.Holding){
       WList[WList.length-1].Base.set(Vadd(mouseDoc(ca),Vmult(WList[WList.length-1].Corner,-1)));
     }
-    if((T%2)===0){
-      BList.push(new ball(new vect(Math.random()*ca.width,5),new vect(Math.random()*6-3,Math.random()*2-1),new vect(0,0.1)));
+
+    if(mousePress&&(LastPress===false)&&tween(ca.height-50,ca.height,mouseDoc(ca).y)&&tween(0,200,mouseDoc(ca).x)){
+      ButtonState=ButtonState===false;
     }
+    if(ButtonState){
+        ctx.fillStyle = "white";
+        ctx.font="15px Mukta"
+        ctx.fillText("Click to change to rain",10,ca.height-10);
+      if((T%5)===0){
+        BList.push(new ball(new vect(20,20),new vect(0,0),new vect(0,0.1)));      
+      }
+    }else{
+        ctx.fillStyle = "white";
+        ctx.font="15px Mukta"
+        ctx.fillText("Click to change to line",10,ca.height-10);
+        if((T%2)===0){
+           BList.push(new ball(new vect(Math.random()*ca.width,5),new vect(Math.random()*6-3,Math.random()*2-1),new vect(0,0.1)));
+        }
+    }
+    LastPress=mousePress;
+
     //BList.push(new ball(new vect(10,10),new vect(3,0),new vect(0,0.1)));
     ctx.strokeStyle='rgba(255,255,255,1)';
     for(var w=0;w<WList.length;w++){
       var W=WList[w];
-      ctx.lineWidth=10;
+      ctx.lineWidth=17;
       drawLine(W.Corner.x,W.Corner.y,W.Corner.x+W.Base.x,W.Corner.y+W.Base.y,ctx);
+      ctx.lineWidth=17/2-1;
+      fillBall(W.Corner.x,W.Corner.y,4,ctx);
+      fillBall(W.Corner.x+W.Base.x,W.Corner.y+W.Base.y,4,ctx);
     }
     for(var i=0;i<BList.length;i++){
       var Balll=BList[BList.length-i-1];
@@ -207,7 +233,17 @@ function animateBounce(){
       fillBall(Balll.Pos.x,Balll.Pos.y,4,ctx);
       fillBall(Balll.NextPos().x,Balll.NextPos().y,4,ctx);
       ctx.lineWidth=10;
-      drawLine(Balll.Pos.x,Balll.Pos.y,Balll.NextPos().x,Balll.NextPos().y,ctx);
+      if(ButtonState===false){
+         drawLine(Balll.Pos.x,Balll.Pos.y,Balll.NextPos().x,Balll.NextPos().y,ctx);
+      }else{
+        if(BList.length-i-2>=0){
+          if(Vlength(Vadd(Balll.Pos,Vmult(BList[BList.length-i-2].Pos,-1)))<60){
+                      drawLine(Balll.Pos.x,Balll.Pos.y,BList[BList.length-i-2].Pos.x,BList[BList.length-i-2].Pos.y,ctx);
+          }
+
+        }
+      }
+      
       if(Balll.Pos.y>ca.height){
         BList.splice(BList.length-i-1,1);
       }
@@ -795,3 +831,4 @@ function animateF7(){
   }
 }
 animateF7();
+
