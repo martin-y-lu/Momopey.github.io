@@ -23,7 +23,7 @@ function animate(){
   ca.width=window.innerWidth;
   ca.height=document.getElementById("title").offsetHeight;
   ctx.clearRect(0, 0, innerWidth, innerHeight);
-  //Draw fancy background shape 
+  //Draw fancy background shape
   NumPoi=Math.floor(1+mouse.y/10);
   shift=Math.floor(1+mouse.x/100);
   N=shift;
@@ -41,12 +41,10 @@ function animate(){
   for(var I=0;I<NumPoi;I++){
   	ctx.beginPath();
     ctx.arc(ca.width/2+Math.cos(I/NumPoi*2*Math.PI)*(150),
-    ca.height/2+Math.sin(I/NumPoi*2*Math.PI)*(150),   
+    ca.height/2+Math.sin(I/NumPoi*2*Math.PI)*(150),
     3,0,Math.PI*2,false);
     ctx.strokeStyle='rgba(0,0,255,1)';
     ctx.stroke();
   }
 }
 animate();
-
-

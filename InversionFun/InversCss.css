@@ -1,0 +1,32 @@
+body {
+    font-family:Coda,sans-serif;
+    width: 100%;
+    background-color: black;
+    margin: 0;
+}
+#title {
+    position: relative;
+    height: 210;
+    font-family:Coda,sans-serif;
+    color: black;
+    border-bottom: 5px solid RGB(250,100,100);
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    margin: 0px;
+}
+#core {
+    color: white;
+    margin-top:20px;
+    margin-left: 60px;
+    margin-right:150px;
+    display:flex;
+    flex-wrap: wrap;
+}
+canvas {
+   position: absolute;
+   background-color: white;
+}
+h1{
+    font-size: 36px;
+}

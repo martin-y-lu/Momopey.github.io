@@ -5,10 +5,10 @@
   		<link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
  		 <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 		<title>MomopeyPlace</title>
-		<link rel="stylesheet" type="text/css" href="/PhysSim/stuff.css">
+		<link rel="stylesheet" type="text/css" href="stuff.css">
 		<link rel="icon" href="/Logothing.png">
 	</head>
-	<body> 
+	<body>
 		<canvas id="Bounce"> eh</canvas>
 			  <small> Click and drag to make a line for the stream to bounce on</small>
 			  <div id="title">
@@ -19,9 +19,9 @@
           Pretty fun right? Here's an explaination of what's happening behind that canvas.
 			   <br><br>
 			   Making a physics simulation is not as easy as I thought!
-			    I spent months working on the code, 
+			    I spent months working on the code,
 			    just so I could get something functional.
-			    I decided I wanted to share my "hard" work 
+			    I decided I wanted to share my "hard" work
 			    and guide you through how I made my code work.
 			    <br><br>
 			    Lets begin with the most basic, the way our particle moves. Our particles have X and Y coordonates. I express them in the form of vectors.
@@ -30,10 +30,10 @@
 			  <div class="texts">
 			    This doesnt tell us much our particle, we don't know where they are going.
 			    We need to add a velocity and acceleration. Take a look at where the particle goes when you change the initial velocity and acceleration.
-			  </div> 
+			  </div>
 			  <canvas id="Fig2" class="figs"> eh</canvas>
 			  <div class="texts">
-			    We have our first bit of code. We now have a class for our particle and a few functions. 
+			    We have our first bit of code. We now have a class for our particle and a few functions.
 			    This code tells the computer how to move our particle in one unit of time. This code is running in your browser!
 			  </div>
 			  <div class="code">
@@ -47,7 +47,7 @@
 			    }
 			  </div>
 			   <div class="texts">
-			    Now that we understand how our particle works, Lets get to the hard part, the collision. 
+			    Now that we understand how our particle works, Lets get to the hard part, the collision.
 			    I began with the most simple solution. We say it collides when its above the line before it updates and underneath the line when after.
 			     The simplest solution for the barrier is just a horisontal one.
            <br>
@@ -68,8 +68,8 @@
 			  </div>
 			  <div class="code">
 			    //This runs in the wall class<br>
-			    this.Collides=function(B){//takes a ball object<br> 
-			    &nbsp&nbsp var Cross= (B.Pos.y &lt this.Corner.y)&&(B.NextPos().y &gt this.Corner.y); 
+			    this.Collides=function(B){//takes a ball object<br>
+			    &nbsp&nbsp var Cross= (B.Pos.y &lt this.Corner.y)&&(B.NextPos().y &gt this.Corner.y);
           <br>
           &nbsp&nbsp //checks if it falls through<br>
 			    &nbsp&nbsp var Tween= (B.Pos.x &lt this.Corner.x)&&(B.Pos.x &gt this.Corner.x+this.length);<br>
@@ -87,9 +87,9 @@
 			    <li>The lines can only horisontal, I want the lines to work at all angles!</li>
 			    </ul>
 			    <br>
-			    The solution for the first issue came to me when I realised I could do something simple. 
+			    The solution for the first issue came to me when I realised I could do something simple.
 			    The code above has no issues, I was just missing one crucial thing. I needed to add a normal force to stop it from falling through. A normal force is a force the push an object exerts on an object resting on it, to counter gravity, just what we need.
-			    <br><br> 
+			    <br><br>
 			    Here's what I added. (The particle becomes red when it gets stablised)
 			  </div>
 			  <div class="code">
@@ -98,7 +98,7 @@
 			    &nbsp&nbsp if(Wall.Collides(Ball)){ //Check if it <i>still</i> falls through<br>
 			    &nbsp&nbsp&nbsp&nbsp  Wall.Stablise(Ball); //Set Acc.y and Vel.y to 0<br>
 			    &nbsp&nbsp&nbsp&nbsp  Ball.PaintRed();<br>
-			    &nbsp&nbsp }<br>
+			    &nbsp&nbsp } <br>
 			    }
 			  </div>
 			  <canvas id="Fig4" class="figs"> eh</canvas>
@@ -106,7 +106,7 @@
 			    Thats better.
 			    <br><br>
 			    Now that thats solved lets move on to our next problem. Having it to work for the horisontal case was so easy,
-			    if only we could rotate the whole frame to make a tilded one horisontal. It turns out you can actually do just that! 
+			    if only we could rotate the whole frame to make a tilded one horisontal. It turns out you can actually do just that!
 			    <br><br>
 			    There is actually a pair of functions that do this, vector multiplication and it's inverse, vector divison.
 			    <br><br>
@@ -116,9 +116,9 @@
 			  <canvas id="Fig6" class="figs"> eh</canvas>
 			   <div class="texts">
 			     The first function returns the two vectors multiplied, which looks like one of them stacked on the other.
-			      Imagine holding the point 0,0 in place and streching 
-			     the point 0,1 to a specific vector by scaling and rotating space. If we see where an other vector gets 
-			     dragged to, thats the result of multiplying them together. 
+			      Imagine holding the point 0,0 in place and streching
+			     the point 0,1 to a specific vector by scaling and rotating space. If we see where an other vector gets
+			     dragged to, thats the result of multiplying them together.
 			     <br><br>
 			     The second function is the inverse of the first, It takes a vector to the point 0,1, and sees how another gets dragged along with it.
 			     These functions actualy have a connection with imaginary numbers.
@@ -143,7 +143,7 @@
 			    This allows us to use the code we already made for the horisontal case, for all cases.
 			    <br><br>
 			    Now we can make our barriers slanted. Lets add the vector that indicates the barrier direction to the wall class.
-			    The new code for the Collides ,Bounce and Stabilise functions look like this. 
+			    The new code for the Collides ,Bounce and Stabilise functions look like this.
 			  </div>
 			  <div class="code">
 			  this.Collides=function(Ball){<br>
@@ -170,7 +170,7 @@
 			   &nbsp&nbsp var RACc=Vdiv(Ball.Acc,Base);<br>
 			   &nbsp&nbsp RVel.y=0; //Stablise<br>
 			   &nbsp&nbsp RACc.y=0;<br>
-			   &nbsp&nbsp Ball.Vel=Vmult(RVel,Base);//Undo rotation <br>  
+			   &nbsp&nbsp Ball.Vel=Vmult(RVel,Base);//Undo rotation <br>
 			   &nbsp&nbsp Ball.Acc=Vx(RACc,Base); <br>
 			  }
 			  </div>
@@ -184,9 +184,9 @@
           <br>
           Of course, it is not really that simple. I did leave out a lot of things like checking collision between multiple barriers, but thats for an other time.
            <br><br><br><br>
-           Hope you enjoyed my strange thingy! If you did, you can go back to the main page to see more stuff like this. &nbsp&nbsp (When I finish making them, that is)
+           Hope you enjoyed my strange thingy! If you did, you can go back to the main page to see more stuff like this. (When I finish making them, that is)
 			  </div>
-		<script src="/PhysSim/Bounce.js"></script>
+		<script src="Bounce.js"></script>
 		<a href="https://momopey.github.io/"> Back to main page </a>
 	</body>
 </html>
