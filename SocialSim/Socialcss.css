@@ -17,12 +17,12 @@ canvas{
 }
 .figs{
   margin-left: 120px;
-} 
+}
 .code{
   font-family:Source Code Pro,sans-serif;
   font-weight: 700;
-  color:RGB(30,15,15); 
-  background:RGB(255,220,220); 
+  color:RGB(30,15,15);
+  background:RGB(255,220,220);
   border-radius:5px;
   padding: 6px;
   margin-left: 120px;
@@ -36,19 +36,18 @@ canvas{
   top: 60px;
   z-index: 1;
   margin-left: 0;
-  
+
 }
 .textsWide{
     font-family:Mukta,sans-serif;
     padding-top: 5px;
-    padding-left: 120px;
+    padding-left: 100px;
     padding-right: 100px;
     padding-bottom: 30px;
     margin: 0px;
     max-width:60%;
     Line-Height: 30px;
     font-size: 20px;
-  
 }
 
 .Header{
@@ -59,25 +58,25 @@ canvas{
   margin-top: 20px;
   margin-bottom: 30px;
   font-size: 30px;
-  background:RGB(255,220,220); 
-  color:RGB(100,60,60); 
+  background:RGB(255,220,220);
+  color:RGB(100,60,60);
 }
 .ScrollSection{
    font-family:Mukta,sans-serif;
    max-width:30%;
    padding-left: 120px;
    padding-right: 60px;
-  
+
    padding-top:60px;
    padding-bottom: 60px;
 
    margin-bottom: 30px;
-   /* background:RGB(155,220,220); */ 
+   /* background:RGB(155,220,220); */
 }
 .texts{
     Line-Height: 30px;
     font-size: 20px;
-    margin-bottom: 200px; 
+    margin-bottom: 200px;
  /* background:RGB(255,220,220); */
 }
 small{

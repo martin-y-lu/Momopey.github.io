@@ -1,32 +1,38 @@
 body {
     font-family:Coda,sans-serif;
     width: 100%;
-    background-color: black;
+    background-color: white;
     margin: 0;
 }
 #title {
-    position: relative;
-    height: 210;
-    font-family:Coda,sans-serif;
-    color: black;
-    border-bottom: 5px solid RGB(250,100,100);
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-bottom: 20px;
-    margin: 0px;
+  padding-left: 60px;
+  padding-bottom: 20px;
+  margin: 0px;
+  Line-Height: 15px;
 }
-#core {
-    color: white;
-    margin-top:20px;
-    margin-left: 60px;
-    margin-right:150px;
-    display:flex;
-    flex-wrap: wrap;
+.text{
+    font-family:Mukta,sans-serif;
+    padding-top: 5px;
+    padding-left: 120px;
+    padding-right: 100px;
+    padding-bottom: 30px;
+    margin: 0px;
+    max-width:60%;
+    Line-Height: 30px;
+    font-size: 20px;
 }
 canvas {
-   position: absolute;
-   background-color: white;
+   /*background-color: white;*/
+   border-bottom: 5px solid RGB(250,100,100);
+   background-color: black;
+}
+small{
+  font-size: 13px;
+  padding-left: 15px;
 }
 h1{
-    font-size: 36px;
+  font-size: 40px;
+}
+h2{
+  font-size: 18px;
 }
