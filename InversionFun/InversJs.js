@@ -224,7 +224,7 @@ ca.width=window.innerWidth;
 ca.height=window.innerHeight-200;
 
 var S=new Scene();
-S.Cam.Scale=100;
+S.Cam.Scale=150;
 var MousePress=new Hold();
 function animate(){
   MousePress.Calc(mousePress&&MousePress.H===false,mousePress===false);
