@@ -178,7 +178,7 @@ function Scene(){
     Form=function(CON){
       CON.strokeStyle="rgb(255,255,255)";
       CON.lineCap="round";
-      CON.lineWidth=self.Lines[I][2];
+      CON.lineWidth=self.Lines[I][2]*self.Cam.Scale/150;
     }
     return Form;
   }
@@ -207,7 +207,7 @@ function Scene(){
     for(var I=0;I<this.Lines.length;I++){
       var Line=this.Lines[I];
       var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
-      if(Dist>0.05){
+      if(Dist*this.Cam.Scale>5){
         Fully=false;
       }
     }
@@ -218,7 +218,7 @@ function Scene(){
       for(var I=0;I<Size;I++){
         var Line=this.Lines[I];
         var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
-        if(Dist>0.05){
+        if(Dist*this.Cam.Scale>5){
           var middle=new vect(lerp(Line[0].x,Line[1].x,.5),lerp(Line[0].y,Line[1].y,.5));
           this.Lines.push([middle.Copy(),Line[1].Copy(),Line[2]]);
           Line[1]=middle.Copy();
@@ -247,11 +247,11 @@ function animate(){
   requestAnimationFrame(animate);
   ca.width=window.innerWidth;
 
-  S.Cam.Shift=new vect(ca.width/S.Cam.Scale/2,ca.height/S.Cam.Scale/2);
-
   var InvertB=(tween(0,100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
   var ClearB=(tween(ca.width-10,ca.width-100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
   var LineB=(tween(150,220,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
+  var InB=(tween(110,135,mouseDoc(ca).x))&&(tween(10,50,mouseDoc(ca).y));
+  var OutB=(tween(150,200,mouseDoc(ca).x))&&(tween(10,50,mouseDoc(ca).y));
   MousePress.Calc(mousePress&&MousePress.H===false,mousePress===false);
   MousePress.Store();
   LineButton.Calc((MousePress.HLength===1)&&LineB,(LineDrawing.HLength>1)&& (MousePress.HLength===1));
@@ -264,14 +264,24 @@ function animate(){
     }
     S.InvertAll();
   }
-
-
   if(MousePress.HLength===1&&ClearB){
     S.Lines=[];
+    S.Cam.Scale=150;
+  }
+  if(MousePress.H&&InB){
+    if(S.Cam.Scale<500){
+      S.Cam.Scale+=1;
+    }
+  }
+  if(MousePress.H&&OutB){
+    if(S.Cam.Scale>50){
+      S.Cam.Scale-=1;
+    }
   }
   if(LineButton.H){
     F.fillText("LineButton "+LineButton.HLength,10,30);
   }
+
   if(LineDrawing.H){
       F.fillText("LineDrawing",10,60);
       if(LineDrawing.HLength===1){
@@ -279,11 +289,11 @@ function animate(){
       }
       S.Lines[S.Lines.length-1][1]=S.MousePos(ca);
   }
-  if(ClearB||InvertB||LineB||LineButton.H)
+  if(ClearB||InvertB||LineB||LineButton.H||InB||OutB)
   {}else{
      S.MouseDraw(ca);
   }
-
+  S.Cam.Shift=new vect(ca.width/S.Cam.Scale/2,ca.height/S.Cam.Scale/2);
   circle(S.Cam.ScreenPos(new vect(0,0)),1*S.Cam.Scale,F,gray);
   circle(S.Cam.ScreenPos(new vect(0,0)),1,F,gray);
   S.Draw(F);
@@ -309,5 +319,19 @@ function animate(){
     texts(F);
   }
   F.fillText("Clear",ca.width-100,ca.height-20);
+  texts(F);
+  F.fillText("Zoom-",10,30);
+  if(InB){
+    Htexts(F);
+  }else{
+    texts(F);
+  }
+  F.fillText("In",110,30);
+  if(OutB){
+    Htexts(F);
+  }else{
+    texts(F);
+  }
+  F.fillText("Out",150,30);
 }
 animate();
