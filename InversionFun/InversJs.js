@@ -187,8 +187,11 @@ function Scene(){
       line(this.Cam.ScreenPos(this.Lines[I][0]),this.Cam.ScreenPos(this.Lines[I][1]),Ctx,this.LineForm(I));
     }
   }
+  this.MousePos=function(Ctx){
+    return this.Cam.ComPos(mouseDoc(Ctx));
+  }
   this.MouseDraw=function(Ctx){
-    var Pos=this.Cam.ComPos(mouseDoc(Ctx));
+    var Pos=this.MousePos(Ctx);
     if(mousePress){
       this.Lines.push([Pos,Pos,10]);
       if(MousePress.HLength>1){
@@ -199,11 +202,23 @@ function Scene(){
   this.InvertPos=function(Pos){
     return Vscale(Pos,1/Vlength(Pos)/Vlength(Pos));
   }
+  this.LinesUnfull=function(){
+    var Fully=true;
+    for(var I=0;I<this.Lines.length;I++){
+      var Line=this.Lines[I];
+      var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
+      if(Dist>0.1){
+        Fully=false;
+      }
+    }
+    return Fully;
+  }
   this.InsureQual=function(){
-      for(var I=0;I<this.Lines.length;I++){
+    var Size=this.Lines.length;
+      for(var I=0;I<Size;I++){
         var Line=this.Lines[I];
         var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
-        if(Dist>5/100){
+        if(Dist>0.1){
           var middle=new vect(lerp(Line[0].x,Line[1].x,.5),lerp(Line[0].y,Line[1].y,.5));
           this.Lines.push([middle.Copy(),Line[1].Copy(),Line[2]]);
           Line[1]=middle.Copy();
@@ -226,42 +241,73 @@ ca.height=window.innerHeight-200;
 var S=new Scene();
 S.Cam.Scale=150;
 var MousePress=new Hold();
+var LineButton=new Hold();
+var LineDrawing=new Hold();
 function animate(){
-  MousePress.Calc(mousePress&&MousePress.H===false,mousePress===false);
-  MousePress.Store();
   requestAnimationFrame(animate);
   ca.width=window.innerWidth;
+
+  S.Cam.Shift=new vect(ca.width/S.Cam.Scale/2,ca.height/S.Cam.Scale/2);
+
+  var InvertB=(tween(0,100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
+  var ClearB=(tween(ca.width-10,ca.width-100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
+  var LineB=(tween(150,220,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
+  MousePress.Calc(mousePress&&MousePress.H===false,mousePress===false);
+  MousePress.Store();
+  LineButton.Calc((MousePress.HLength===1)&&LineB,(LineDrawing.HLength>1)&& (MousePress.HLength===1));
+  LineDrawing.Calc((MousePress.HLength===1)&&(LineButton.HLength>1),(LineDrawing.HLength>1)&&(MousePress.HLength===1));
+  LineButton.Store();
+  LineDrawing.Store();
+  if(MousePress.HLength===1&&InvertB){
+    while(!S.LinesUnfull()){
+      S.InsureQual();
+    }
+    S.InvertAll();
+  }
+
+
+  if(MousePress.HLength===1&&ClearB){
+    S.Lines=[];
+  }
+  if(LineButton.H){
+    F.fillText("LineButton "+LineButton.HLength,10,30);
+  }
+  if(LineDrawing.H){
+      F.fillText("LineDrawing",10,60);
+      if(LineDrawing.HLength===1){
+        S.Lines.push([S.MousePos(ca),S.MousePos(ca),10]);
+      }
+      S.Lines[S.Lines.length-1][1]=S.MousePos(ca);
+  }
+  if(ClearB||InvertB||LineB||LineButton.H)
+  {}else{
+     S.MouseDraw(ca);
+  }
+
   circle(S.Cam.ScreenPos(new vect(0,0)),1*S.Cam.Scale,F,gray);
   circle(S.Cam.ScreenPos(new vect(0,0)),1,F,gray);
-  S.Cam.Shift=new vect(ca.width/S.Cam.Scale/2,ca.height/S.Cam.Scale/2);
-  if((tween(0,100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y))){
-    if(MousePress.HLength===1){
-      S.InsureQual();
-      S.InvertAll();
-    }
-    F.font = "30px Mukta";
+  S.Draw(F);
+
+  F.font = "30px Mukta";
+  if(InvertB){
     Htexts(F);
   }else{
-
     texts(F);
   }
-  F.font = "30px Mukta";
   F.fillText("Invert",15,ca.height-20);
-  if((tween(ca.width-10,ca.width-100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y))){
+
+  if(LineButton.H){
     Htexts(F);
-    if(MousePress.HLength===1){
-      S.Lines=[];
-    }
+  }else{
+    texts(F);
+  }
+  F.fillText("Line",150,ca.height-20);
+
+  if(ClearB){
+    Htexts(F);
   }else {
     texts(F);
   }
   F.fillText("Clear",ca.width-100,ca.height-20);
-  if(((tween(0,100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y)))||
-    ((tween(ca.width-10,ca.width-100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y)))
-  ){}else{
-     S.MouseDraw(ca);
-  }
-
-  S.Draw(F);
 }
 animate();
