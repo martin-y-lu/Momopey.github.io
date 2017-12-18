@@ -207,7 +207,7 @@ function Scene(){
     for(var I=0;I<this.Lines.length;I++){
       var Line=this.Lines[I];
       var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
-      if(Dist>0.1){
+      if(Dist>0.05){
         Fully=false;
       }
     }
@@ -218,7 +218,7 @@ function Scene(){
       for(var I=0;I<Size;I++){
         var Line=this.Lines[I];
         var Dist=Vlength(Vadd(Line[0],Vscale(Line[1],-1)));
-        if(Dist>0.1){
+        if(Dist>0.05){
           var middle=new vect(lerp(Line[0].x,Line[1].x,.5),lerp(Line[0].y,Line[1].y,.5));
           this.Lines.push([middle.Copy(),Line[1].Copy(),Line[2]]);
           Line[1]=middle.Copy();
