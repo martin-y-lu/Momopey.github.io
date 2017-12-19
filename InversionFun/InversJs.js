@@ -243,6 +243,8 @@ S.Cam.Scale=150;
 var MousePress=new Hold();
 var LineButton=new Hold();
 var LineDrawing=new Hold();
+var CircleButton=new Hold();
+var CircleDrawing=new Hold();
 function animate(){
   requestAnimationFrame(animate);
   ca.width=window.innerWidth;
@@ -250,6 +252,7 @@ function animate(){
   var InvertB=(tween(0,100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
   var ClearB=(tween(ca.width-10,ca.width-100,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
   var LineB=(tween(150,220,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
+  var CircleB=(tween(250,325,mouseDoc(ca).x))&&(tween(ca.height-10,ca.height-50,mouseDoc(ca).y));
   var InB=(tween(110,135,mouseDoc(ca).x))&&(tween(10,50,mouseDoc(ca).y));
   var OutB=(tween(150,200,mouseDoc(ca).x))&&(tween(10,50,mouseDoc(ca).y));
   MousePress.Calc(mousePress&&MousePress.H===false,mousePress===false);
@@ -258,6 +261,10 @@ function animate(){
   LineDrawing.Calc((MousePress.HLength===1)&&(LineButton.HLength>1),(LineDrawing.HLength>1)&&(MousePress.HLength===1));
   LineButton.Store();
   LineDrawing.Store();
+  CircleButton.Calc((MousePress.HLength===1)&&CircleB,(CircleDrawing.HLength>1)&& (MousePress.HLength===1));
+  CircleDrawing.Calc((MousePress.HLength===1)&&(CircleButton.HLength>1),(CircleDrawing.HLength>1)&&(MousePress.HLength===1));
+  CircleButton.Store();
+  CircleDrawing.Store();
   if(MousePress.HLength===1&&InvertB){
     while(!S.LinesUnfull()){
       S.InsureQual();
@@ -272,16 +279,14 @@ function animate(){
     if(S.Cam.Scale<500){
       S.Cam.Scale+=1;
     }
+    MousePress.HLength=0;//Fix liney problem
   }
   if(MousePress.H&&OutB){
     if(S.Cam.Scale>50){
       S.Cam.Scale-=1;
     }
+    MousePress.HLength=0;//Fix liney problem
   }
-  if(LineButton.H){
-    F.fillText("LineButton "+LineButton.HLength,10,30);
-  }
-
   if(LineDrawing.H){
       F.fillText("LineDrawing",10,60);
       if(LineDrawing.HLength===1){
@@ -289,7 +294,24 @@ function animate(){
       }
       S.Lines[S.Lines.length-1][1]=S.MousePos(ca);
   }
-  if(ClearB||InvertB||LineB||LineButton.H||InB||OutB)
+  if(CircleDrawing.HLength===1){
+      S.Lines.push([S.MousePos(ca),S.MousePos(ca),10]);
+  }
+  if(CircleDrawing.ELength===1){
+    var Center=S.Lines[S.Lines.length-1][0].Copy();
+    var Radius=Vlength(Vadd(mouseDoc(ca),Vscale(S.Cam.ScreenPos(Center),-1)));
+    var NumPoints=60;
+    for(var N=0;N<NumPoints;N++){//Add nine Particles with rad 1 (shift pos later with cam)
+      var NLine=[];
+      NLine[0]=S.Cam.ComPos(Vadd(new vect(Math.cos(N/NumPoints*2*Math.PI)*Radius,Math.sin(N/NumPoints*2*Math.PI)*Radius),S.Cam.ScreenPos(Center)));
+    //NLine[0]=Vadd(NLine[0],new vect(Center.x,1));
+      NLine[1]=S.Cam.ComPos(Vadd(new vect(Math.cos((N+1)/NumPoints*2*Math.PI)*Radius,Math.sin((N+1)/NumPoints*2*Math.PI)*Radius),S.Cam.ScreenPos(Center)));
+    //  NLine[1]=Vadd(NLine[1],new vect(Center.x,1));
+      NLine[2]=10;
+      S.Lines.push(NLine);
+    }
+  }
+  if(ClearB||InvertB||LineB||LineButton.H||CircleButton.H||InB||OutB)
   {}else{
      S.MouseDraw(ca);
   }
@@ -312,7 +334,16 @@ function animate(){
     texts(F);
   }
   F.fillText("Line",150,ca.height-20);
+  if(CircleDrawing.H){
+    circle(S.Cam.ScreenPos(S.Lines[S.Lines.length-1][1].Copy()),Vlength(Vadd(mouseDoc(ca),Vscale(S.Cam.ScreenPos(S.Lines[S.Lines.length-1][1].Copy()),-1))),F,white);
+  }
 
+  if(CircleButton.H){
+    Htexts(F);
+  }else {
+    texts(F);
+  }
+  F.fillText("Circle",250,ca.height-20);
   if(ClearB){
     Htexts(F);
   }else {
