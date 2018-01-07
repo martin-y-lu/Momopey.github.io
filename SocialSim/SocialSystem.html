@@ -6,7 +6,7 @@
   		<link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="Socialcss.css">
-  <title>JS Bin</title>
+  <title>Social System</title>
 </head>
 <body>
   <canvas id="System"> eh</canvas>
@@ -31,53 +31,109 @@
   </div>
     <div class="ScrollSection" id="P1">
       <div class="texts" id="P1E1">
-        Lets begin in the simplest place, were gonna need some people.
+        My goal here is to create a network, that models the way we act.<br>
+        Lets begin in the simplest place, were gonna need some people. Can't have interaction without people!
+        <br><br>
         Click in the black void to add some red ball people.
         <br>
         <br>
       </div>
 
       <div class="texts" id="P1E2">
-        gehehehyyyy u r a gah
+        We want our model to represent relationships, albeit very basicly and one dimentionaly. Lets show relations with a single like hate status.
+        <br><br>
+        A line conneting two people shows an opinion of one other, Bright green shows freindlyness, while red shows hate.
         <br>
         <br>
       </div>
       <div class="texts"id="P1E3" >
-        900+ IQ
+        To make the structure of the model more apparent, lets add an other human quality, shunning off people you dislike while huddling with your friends.
+        <br><br>
+        People with green connections will now get together. A group hug!
         <br>
         <br>
       </div>
       <div class="texts" id="P1E4" >
-        gehehehyyyy u r a gah
-        <br>
-        <br>
-      </div>
-      <div class="texts" id="P1E5">
-        900+ IQ
-       <br>
-        <br>
-      </div>
-      <div class="texts" id="P1E6">
-        gehehehyyyy u r a gah
-        <br>
-        <br>
-      </div>
-      <div class="texts" id="P1E7">
-        900+ IQ
+        This is our model, the skeleton, but it is missing one important thing, the interaction itself! The relationships are static, they never change.
+        <br><br>
+        Now this begs the question, how do people respond to the people and connections around them? How do we model this simply and fluidly?
         <br>
         <br>
       </div>
     </div>
-  <canvas id="Part1"> eh</canvas>
+  <canvas class="PartCanvas"id="Part1"> eh</canvas>
   <div class="Header"id="thing2">
     Part two- The rule
   </div>
-    <div class="Header">
+  <div class="ScrollSection" id="P2">
+      <div class="texts" id="P2E1">
+      Lets think for a moment about the small scale. For a single relationship, how should it change given the ones around it? Take a second to think about this.
+      What situation would give us any insight on this?
+      <br>
+      <br>
+    </div>
+
+    <div class="texts" id="P2E2">
+      Lets look at the case where there are three people, all with very intense emotions toards eachother. Imagine if a pair of people hated each other, while both liking the third guy. What is bound to happen?
+      <br><br>
+      What if all three people disliked eachother? How would you expect there groups to evolve?
+      <br>
+      <br>
+    </div>
+    <div class="texts"id="P2E3" >
+      From your experience you probrably know that this is how it progresses. People try to maintain clarity by making sure who their freinds and enemys are, its just human nature.
+      <br><br>
+      Any situation where some one can be enterpreted as friends and enemys are avoided, by shifting sides.
+      <br>
+      <br>
+    </div>
+    <div class="texts"id="P2E4" >
+      We can represent this property mathmaticaly/programatically.
+      <button onclick="myFunction()">Click here to see how it works.</button>
+      <div id="small">
+      Looking at one persons connection to another gives one opinion. Person A likes person B so or so much.
+      Another opinion can be deduced from a third person C. Person A has an connection to Person C,
+      who also has an opinion of Person B. Multiply these together to get a deduced opinion.
+      Think about it like this, C has an opinion about B, but A has an opinion of C's opinion.
+      <br><br>
+       Now given these two opinions, A will now change his opinion of B to more closey match the other.
+      Remember, People don't like ambiguity so they will naturaly do this.
+      Run this little algotithm on all trinagles of people to find the whole change.
+      All this is represented by this single line of code:
+      <br><br>
+      this.NextRespect+= Com.Speed*(AC.Respect*BC.Respect- Math.abs(AC.Respect*BC.Respect) * this.Respect);
+      <br><br>
+      Did that make sense? Probrably not.
+      </div>
+      <br><br>
+      With this, our model is complete. It is responsive and acts like a real community!
+      Now we are ready to answer the questions that we first asked.
+      <br>
+      <br>
+    </div>
+  </div>
+<!-- <canvas class="PartCanvas"id="Part2"> eh</canvas> -->
+  <div class="Header">
     Part three- The system
+  </div>
+  <div class="ScrollSection" id="P3">
+    <div class="texts" id="P3E1">
+      <br>
+      <br>
+    </div>
+    <div class="texts" id="P3E2">
+      <br>
+      <br>
+    </div>
+    <div class="texts" id="P3E3">
+      <br>
+      <br>
+    </div>
   </div>
   <a href="https://momopey.github.io/"> Back to main page </a>
 </body>
 <script src="Socialjs.js"></script>
 <script src="PartOne.js"></script>
+<script src="PartTwo.js"></script>
 <script src="Runnerjs.js"></script>
 </html>

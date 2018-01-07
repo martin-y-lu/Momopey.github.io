@@ -147,11 +147,6 @@ function line(A,B,C,Lq){
   }
   C.stroke();
 }
-function lineArr(Array,C,Lq){
-  for(var I=1;I<Array.length;I++){
-    line(Array[I-1],Array[I],C,Lq)
-  }
-}
 
 
 var gray=function(CON){

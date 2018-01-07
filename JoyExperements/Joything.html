@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Messing around with joy.js</title>
+    <link rel="stylesheet" type="text/css" href="joy.css">
+    <style>
+
+    	@font-face{
+    		font-family: 'FuturaHandwritten';
+    		font-style: normal;
+    		src: url('FuturaHandwritten.ttf') format('truetype');
+    	}
+    	body{
+    		margin: 0;
+    		font-size: 20px;
+    		font-family: 'FuturaHandwritten';
+    		font-weight: 100;
+    		line-height: 1.7em;
+    	}
+    	#turtle, #joy{
+    		width:400px; height:400px;
+    		float:left;
+    	}
+    	#joy{
+    		background: #eee;
+    		overflow: scroll;
+    	}
+    	hr{
+    		border: none;
+    		border-bottom: 2px dashed #ccc;
+    		margin: 1.5em 0;
+    	}
+    	.cursor-grab{
+    		cursor: -webkit-grab;
+    		cursor: -moz-grab;
+    		cursor: -ms-grab;
+    		cursor: grab;
+    	}
+    	.cursor-grabbing{
+    		cursor: -webkit-grabbing;
+    		cursor: -moz-grabbing;
+    		cursor: -ms-grabbing;
+    		cursor: grabbing;
+    	}
+  </style>
+  </head>
+  <body>
+    words words
+    <div id="turtle"></div>
+    <div id="joy"></div>
+
+  </body>
+  <script src="joy.js"></script>
+  <script src="Controller.js"></script>
+</html>

@@ -1,25 +1,5 @@
 // JS setup functions
 /////-----------
-
-//       ----- Weird Init stuff
-// Useful stoofs and page qualities
-var mouse={x:0,y:0}  ;// mouse position on screen
-var mousePress=false;// Mouse held down
-var scroll=new vect(0,0);//scroll X,Y
-//Event listsneys
-window.addEventListener("mousedown",function(event){mousePress=true;},false);
-window.addEventListener("mouseup",function(event){mousePress=false;},false);
-
-window.addEventListener("mousemove",function(event){
-  mouse.x=event.x;
-  mouse.y=event.y;
-})
-window.addEventListener("scroll",function (e) {
-    scroll.x=window.scrollX;
-    scroll.y=window.scrollY;
-});
-
-
 //Functions for CSS managment
 function ElementAllOffScreen(El){//Checks if an element is off of the screen completley
   var rect = El.getBoundingClientRect();
@@ -70,7 +50,6 @@ function Hold(){// Simple class for button presses/ other stuff like that
      this.nextH=false;
    }
   }
-
   this.Store=function(){//Stores the nextframes
     this.S=this.nextS;
     this.H=this.nextH;
@@ -95,6 +74,9 @@ function vect(X,Y){// Vector class
 }
 function Vadd(A,B){// Sums up two vectors
   return new vect(A.x+B.x,A.y+B.y);
+}
+function Vdiff(A,B){// Difference tween A and B
+  return new vect(A.x-B.x,A.y-B.y);
 }
 function Vscale(V,F){//Scales vector by float
   return new vect(V.x*F,V.y*F);
@@ -133,6 +115,12 @@ function CamScene(){//Transform class for a cam space
   }
   this.ComPos=function(V){//Finds spacepos given screen space,Good for mouse stuff
     return Vadd(Vscale(V,1/this.Scale),Vscale(this.Shift,-1))
+  }
+  this.Surrounds=function(Cams,doc){//Takes a camscene and Canvas/Display element, checks
+    return tween(this.Shift.x,this.Shift.x+doc.width*this.Scale,Cams.Shift.x)&&
+           tween(this.Shift.y,this.Shift.y+doc.height*this.Scale,Cams.Shift.y)&&
+           tween(this.Shift.x,this.Shift.x+doc.width*this.Scale,Cams.Shift.x+doc.width*Cams.Scale)&&
+           tween(this.Shift.y,this.Shift.y+doc.height*this.Scale,Cams.Shift.y+doc.height*Cams.Scale);
   }
 }
 function Community(){// Class for system of people
@@ -234,7 +222,7 @@ function Community(){// Class for system of people
       Conn.PerB.Pos=Vadd(CurrPosA,Vscale(Vadd(CurrPosB,Vscale(CurrPosA,-1)),Scaler));
     }
   }
-  this.MouseInteract=function(Mouse){// Changes the connects when mouse is nearby
+  this.MouseInteract=function(Mouse,TargetRespect){// Changes the connects when mouse is nearby
     var MousePos=this.Cam.ComPos(Mouse);
     for(var C=0;C<this.CList.length;C++){
       var Conn=this.CList[C];
@@ -242,10 +230,23 @@ function Community(){// Class for system of people
       var DistA=Vlength(Vadd(Conn.PerA.Pos,Vscale(MousePos,-1)));
       var DistB=Vlength(Vadd(Conn.PerB.Pos,Vscale(MousePos,-1)));
       if(DistA+DistB<Dist+10){
-        Conn.Respect=lerp(-1,Conn.Respect,.5);
-        Conn.NextRespect=lerp(-1,Conn.NextRespect,.5);
+        Conn.Respect=lerp(TargetRespect,Conn.Respect,.5);
+        Conn.NextRespect=lerp(TargetRespect,Conn.NextRespect,.5);
       }
     }
+  }
+  this.MouseOnPersons=function(Mouse){
+    var MousePos=this.Cam.ComPos(Mouse);
+    var PersonNumber=null;
+    for(var P=0;P<this.PList.length;P++){
+      //console.log(Vlength(Vdiff(MousePos,this.PList[P].Pos)));
+      if(Vlength(Vdiff(MousePos,this.PList[P].Pos))<20){
+        if(PersonNumber==null){
+          PersonNumber=P;
+        }
+      }
+    }
+    return PersonNumber;
   }
   this.SetScreenInterp=function(){// Sets the interp for Cam.
     this.Cam.Shift.x=lerp(this.PrevCam.Shift.x,this.NextCam.Shift.x,this.Interp);
@@ -308,7 +309,12 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
   this.CanvasEl=CanvasEl;// Element of the canvas
   this.CurrPos=0;//Current Textel number next to the canvas
   this.LastPos=0;// Last textel number
-  this.HList=[];//List of all Transitions used between textelements
+  this.HList=[];//List of all Transitions used between text elements( form [A,B, Holder])
+  // Functions on transitions of form [index on HList, Actual function]
+  this.StartFuncts=[];//Functs at the start of each transition( one frame)
+  this.TransFuncts=[];//Functs during Transitions
+  this.EndFuncts=[];//Functs at end of transition (one frame)
+  this.StateFuncs=[];//Functs running in a specific state, eg text el highlited/Textelnum
   this.TextEl=function(num){// Returns textel asked for
     return TextEls[num];
   }
@@ -331,7 +337,7 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
     }
     return New;
   }
-  this.GetTran=function(A,B){// Returns the tran with transition A to B, No check
+  this.GetTrans=function(A,B){// Returns the tran with transition A to B, No check
     var GTran=0;
     for(var i=0;i<this.HList.length;i++){
       var Transl=this.HList[i];
@@ -341,18 +347,95 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
     }
     return GTran[0];
   }
-  this.CallforTrans=function(A,B){// Get tran but makes the transition if it doesn't exist
+  this.GetTransNum=function(A,B){// Returns the index of transition A B, No check
+      var Tnum=null;
+      for(var i=0;i<this.HList.length;i++){
+        var Transl=this.HList[i];
+        if((Transl[1]===A&&Transl[2]===B)){
+          Tnum=Transl;
+        }
+      }
+      if(Tnum===null){
+        this.HList.push([new Hold(),A,B])
+        Tnum=this.HList.length-1;
+      }
+      return Tnum;
+    }
+  this.CallForTrans=function(A,B){// Get tran but makes the transition if it doesn't exist
     if(this.NewTrans(A,B)){
       this.HList.push([new Hold(),A,B])
     }
-    var GTran=this.GetTran(A,B);
+    var GTran=this.GetTrans(A,B);
     return GTran;
   }
-  this.UpdateTrans=function(A,B){//Updates the specific Hold Tran A to B with a countup of 70 frames;
-    this.CallforTrans(A,B).Calc(this.Trans(A,B),this.GetTran(A,B).HLength===70);
+  this.UpdateTrans=function(A,B){//Updates the specific Hold Tran A to B with a countup of 70 frames
+    var CutOff=this.CurrPos!=B;
+    var End = ((this.CallForTrans(A,B).HLength==70)||CutOff)&&this.CallForTrans(A,B).H;
+    this.CallForTrans(A,B).Calc(this.Trans(A,B),End);
   }
   this.StoreTrans=function(A,B){//Stores the new vars of Tran from A to B
-    this.CallforTrans(A,B).Store();
+    this.CallForTrans(A,B).Store();
+  }
+  this.AddStartFuncs=function(A,B,F){//Adds a new funct to StartFuncts given A and B
+    this.StartFuncts.push([A,B,F]);
+  }
+  this.AddTransFuncts=function(A,B,F){// Adds to Trans//Adds to during trans functs
+    this.TransFuncts.push([A,B,F]);
+  }
+  this.AddEndFuncts=function(A,B,F){//Adds to end functs
+    this.EndFuncts.push([A,B,F]);
+  }
+  this.AddStateFuncts=function(N,F){//Code that runs during a state given the number
+    this.StateFuncs.push([N,F]);
+  }
+  this.UpdateHList=function(){//Updates all Holds
+    for(var I=0;I<this.HList.length;I++){
+      this.UpdateTrans(this.HList[I][1],this.HList[I][2]);
+      this.HList[I][0].Store();
+    }
+  }
+  this.RunStartFuncts=function(){//Check and run all start functions
+    var arr=this.StartFuncts;
+    for(var Ia=0;Ia<(arr.length);Ia++){
+      var Item=arr[Ia]
+      if(this.CallForTrans(Item[0],Item[1]).HLength===1){
+        Item[2]();
+      }
+    }
+  }
+  this.RunTransFuncts=function(){//Check and run all Transitions
+    var arr=this.TransFuncts;
+    for(var Ib=0;Ib<arr.length;Ib++){
+      var Item=arr[Ib]
+      if(this.CallForTrans(Item[0],Item[1]).HLength>0){
+        Item[2]();
+      }
+    }
+  }
+  this.RunEndFuncts=function(){//Check and run all  Ends
+    for(var Ic=0;Ic<this.EndFuncts.length;Ic++){
+      var Item=this.EndFuncts[Ic]
+      if(this.CallForTrans(Item[0],Item[1]).ELength===1){
+        Item[2]();
+      }
+    }
+  }
+  this.RunStateFuncts=function(){//Run all states
+    var arr =this.StateFuncs;
+    for(var Id=0;Id<this.StateFuncs.length;Id++){
+      var Item=arr[Id]
+      if(this.CurrPos===Item[0]){
+        Item[1]();
+      }
+    }
+  }
+  this.UpdateSystem=function(){//Update/ run all
+    this.UpdateHList();
+
+    this.RunStateFuncts();
+    this.RunEndFuncts();
+    this.RunTransFuncts();
+    this.RunStartFuncts();
   }
   this.CalcPos=function(){//Calculates the Currpos, the textel next to canvas
     this.LastPos=this.CurrPos;
@@ -381,30 +464,4 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
       this.CanvasEl.style.top=Lower-innerHeight+"px";
     }
   }
-}
-  var C=new Community();//Makes Community for Top Displat
-  var ca=document.getElementById("System");//Canvas Element
-  var F=ca.getContext("2d");//2d context element
-  ca.height=500;//Set canvas height
-  for(var N=0;N<9;N++){//Add nine Particles with rad 1 (shift pos later with cam)
-    C.PList.push(new Person(new vect(Math.cos(N/9*2*Math.PI)*ca.height/2,Math.sin(N/9*2*Math.PI)*ca.height/2),C));
-    if(N>0){
-      C.CList.push(new Connect(N-1,N,1,C));//Add connects in loop
-    }
-  }
-  C.CList.push(new Connect(0,9-1,1,C));//Add last conneect
-  C.Speed=0.008;//Set Community speed
-
-  C.LikeDist=ca.height*.35;//Set Like dist
-  C.HateDist=C.LikeDist*2;//Set Hate Dist
-function animateSystem(){//Animator
-  ca.width=innerWidth;//Set innerwidth
-  C.Cam.Shift=new vect(ca.width/2,ca.height/2);//Set Camshift halfway
-  F.clearRect(0, 0, innerWidth, innerHeight);//Scale
-
-  C.MouseInteract(mouseDoc(ca));//Mouse Interaction
-  C.UpdatePos();
-  C.UpdateAll()
-
-  C.Draw(F);
 }

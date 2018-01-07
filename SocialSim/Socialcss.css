@@ -31,7 +31,7 @@ canvas{
   margin-bottom: 10px;
   width:60%
 }
-#Part1{
+.PartCanvas{
   position: fixed;
   top: 60px;
   z-index: 1;
@@ -63,18 +63,18 @@ canvas{
 }
 .ScrollSection{
    font-family:Mukta,sans-serif;
-   max-width:30%;
+   max-width:20%;
    padding-left: 120px;
    padding-right: 60px;
 
-   padding-top:60px;
+   padding-top:160px;
    padding-bottom: 60px;
 
    margin-bottom: 30px;
    /* background:RGB(155,220,220); */
 }
 .texts{
-    Line-Height: 30px;
+    Line-Height: 35px;
     font-size: 20px;
     margin-bottom: 200px;
  /* background:RGB(255,220,220); */
@@ -82,6 +82,18 @@ canvas{
 small{
   font-size: 13px;
   padding-left: 15px;
+  Line-Height: 3px !important;
+}
+button{
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 20px;
+}
+#small{
+  display: none;
+  font-size:16px;
+  Line-Height: 22px;
 }
 h1{
   font-size: 40px;
