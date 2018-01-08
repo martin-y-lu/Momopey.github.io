@@ -1,6 +1,6 @@
 var pa=document.getElementById("Part1");//Canvas element for Scroll one
 var Fa=pa.getContext("2d");//Canvas 2d element
-var Scroll= new Scroller(document.getElementById("P1"),//Top element
+var ScrollA= new Scroller(document.getElementById("P1"),//Top element
                         [document.getElementById("P1E1"),//Text El list
                         document.getElementById("P1E2"),
                         document.getElementById("P1E3"),
@@ -28,7 +28,7 @@ var BallClickCheck= function(){// Moves people if they are clicked
     }
   }
 }
-Scroll.AddStateFuncts(0,function(){// On the first state
+ScrollA.AddStateFuncts(0,function(){// On the first state
   BallClickCheck();// People click
   if(MousePress.HLength===1){//If just tapped
     if(D.MouseOnPersons(mouseFixedDoc(pa))===null){// If not clicking on ball
@@ -44,7 +44,7 @@ Scroll.AddStateFuncts(0,function(){// On the first state
     }
   }
 })
-Scroll.AddStartFuncts(0,1,function(){// Just when we move from state 0 to 1
+ScrollA.AddStartFuncts(0,1,function(){// Just when we move from state 0 to 1
   if(D.PList.length>0){//If there are people
    var RandA=0;
    var RandB=0;
@@ -58,7 +58,7 @@ Scroll.AddStartFuncts(0,1,function(){// Just when we move from state 0 to 1
    }
   }
 })
-Scroll.AddTransFuncts(0,1,function(){// During 0 1 transition
+ScrollA.AddTransFuncts(0,1,function(){// During 0 1 transition
   for(var C=0;C<D.CList.length;C++){//Loop through all Connects
     var Conne=D.CList[C];
     if(Conne.Respect>0){// If pos lerp twoards 1
@@ -69,7 +69,7 @@ Scroll.AddTransFuncts(0,1,function(){// During 0 1 transition
     }
   }
 })
-Scroll.AddEndFuncts(0,1,function(){//At end of trans
+ScrollA.AddEndFuncts(0,1,function(){//At end of trans
   for(var C=0;C<D.CList.length;C++){//Set them all to one or negitave one
     var Conne=D.CList[C];
     if(Conne.Respect>0){
@@ -80,16 +80,16 @@ Scroll.AddEndFuncts(0,1,function(){//At end of trans
     }
   }
 })
-Scroll.AddTransFuncts(1,0,function(){//when Going back from 1 to 0
+ScrollA.AddTransFuncts(1,0,function(){//when Going back from 1 to 0
   for(var C=0;C<D.CList.length;C++){
     var Conne=D.CList[C];
     Conne.Respect=lerp(Conne.Respect,0,0.05);// lero twoards 0
   }
 })
-Scroll.AddEndFuncts(1,0,function(){
+ScrollA.AddEndFuncts(1,0,function(){
   D.CList=[];//When back up, clear CList
 })
-Scroll.AddStateFuncts(1,function(){//At one
+ScrollA.AddStateFuncts(1,function(){//At one
     BallClickCheck();//Check for people click
     if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//No person click
       if(MousePress.H){// Do Interaction
@@ -99,16 +99,16 @@ Scroll.AddStateFuncts(1,function(){//At one
       }
     }
 })
-Scroll.AddStartFuncts(1,2,function(){//At start 1 to 2
+ScrollA.AddStartFuncts(1,2,function(){//At start 1 to 2
   D.Speed=0;//Speed set 0
 })
-Scroll.AddTransFuncts(1,2,function(){
+ScrollA.AddTransFuncts(1,2,function(){
   D.Speed=tween(D.Speed,0.02,0.05);//Lerp twoards 0.02
 })
-Scroll.AddEndFuncts(1,2,function(){
+ScrollA.AddEndFuncts(1,2,function(){
   D.Speed=0.02;// Set as 0.02
 })
-Scroll.AddStateFuncts(2,function(){
+ScrollA.AddStateFuncts(2,function(){
     BallClickCheck();//People check
     D.UpdatePos();// This time things update spacewise
     if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//More interact
@@ -119,13 +119,13 @@ Scroll.AddStateFuncts(2,function(){
       }
     }
 })
-Scroll.AddTransFuncts(2,1,function(){// The reverse part
+ScrollA.AddTransFuncts(2,1,function(){// The reverse part
   D.Speed=tween(D.Speed,0,0.05);
 })
-Scroll.AddEndFuncts(2,1,function(){
+ScrollA.AddEndFuncts(2,1,function(){
   D.Speed=0;
 })
-Scroll.AddStateFuncts(3,function(){// At state 3
+ScrollA.AddStateFuncts(3,function(){// At state 3
     BallClickCheck();// The same as 2
     D.UpdatePos();
     if(D.MouseOnPersons(mouseFixedDoc(pa))===null){
@@ -136,7 +136,7 @@ Scroll.AddStateFuncts(3,function(){// At state 3
       }
     }
 })
-Scroll.AddStartFuncts(2,3,function(){//Transition from 2 to 3 start
+ScrollA.AddStartFuncts(2,3,function(){//Transition from 2 to 3 start
   for(var N=0;N<12;N++){//Add nine Particles with rad 1 (shift pos later with cam)
     var Position=new vect(Math.cos(N/9*2*Math.PI)*ca.height/2,Math.sin(N/9*2*Math.PI)*ca.height/2);
     Position=Vscale(Position,D.Cam.Scale*2);
@@ -145,7 +145,7 @@ Scroll.AddStartFuncts(2,3,function(){//Transition from 2 to 3 start
     D.ConnectToRandom(D.PList.length-1,3);//Add new random connects
   }
 })
-Scroll.AddTransFuncts(2,3,function(){// During trans
+ScrollA.AddTransFuncts(2,3,function(){// During trans
   for(var C=0;C<D.CList.length;C++){// Move to 1 or -1
     var Conne=D.CList[C];
     if(Conne.Respect>0){
@@ -157,9 +157,9 @@ Scroll.AddTransFuncts(2,3,function(){// During trans
   }
 })
 function animatePa(){//Animator
-  Scroll.setPos();//Sets the Canvas Position
-  Scroll.CalcPos();//Calc the text El next to canvas
-  Scroll.TextEl(Scroll.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
-  Scroll.UpdateSystem();
+  ScrollA.setPos();//Sets the Canvas Position
+  ScrollA.CalcPos();//Calc the text El next to canvas
+  ScrollA.TextEl(ScrollA.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
+  ScrollA.UpdateSystem();
   D.Draw(Fa);
 }

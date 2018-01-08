@@ -53,5 +53,6 @@ function animateCore(){
     requestAnimationFrame(animateCore);
     animateSystem();
     animatePa();
+    animatePb();
 }
 animateCore();
