@@ -16,7 +16,7 @@ D.PrevCam.Scale=1.3;
 D.NextCam.Scale=1.4;
 
 var BallHoldNum;
-var BallClickCheck= function(){
+var BallClickCheck= function(){// Moves people if they are clicked
   if(MousePress.H){
     if(MousePress.HLength===1){
       BallHoldNum=D.MouseOnPersons(mouseFixedDoc(pa))
@@ -28,10 +28,10 @@ var BallClickCheck= function(){
     }
   }
 }
-Scroll.AddStateFuncts(0,function(){
-  BallClickCheck();
-  if(MousePress.H){
-    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){
+Scroll.AddStateFuncts(0,function(){// On the first state
+  BallClickCheck();// People click
+  if(MousePress.HLength===1){//If just tapped
+    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){// If not clicking on ball
       Fa.beginPath();//Draw A ball at mouse Pos;
       Fa.arc(mouseFixedDoc(pa).x,mouseFixedDoc(pa).y,
       10,0,Math.PI*2,false);
@@ -44,36 +44,33 @@ Scroll.AddStateFuncts(0,function(){
     }
   }
 })
-Scroll.AddStartFuncs(0,1,function(){
-  if(D.PList.length>=2){
-    D.CList.push(new Connect(0,1,(Math.random()-.5)*0.01,D));
-  }
-  if(D.PList.length>0){
+Scroll.AddStartFuncts(0,1,function(){// Just when we move from state 0 to 1
+  if(D.PList.length>0){//If there are people
    var RandA=0;
    var RandB=0;
-   for(var N=0;N<10;N++){
+   for(var N=0;N<10;N++){//Loop to add 10 peeople
      RandA=randInt(0,D.PList.length-1);
      RandB=randInt(0,D.PList.length-1);
-     var Connec=new Connect(RandA,RandB,(Math.random()-.5)*0.01,D)
+     var Connec=new Connect(RandA,RandB,(Math.random()-.5)*0.01,D)// Random Connect
      if(D.ConnectNew(Connec)&&D.ConnectLegal(Connec)){
-       D.CList.push(Connec);
+       D.CList.push(Connec);//Push P
      }
    }
   }
 })
-Scroll.AddTransFuncts(0,1,function(){
-  for(var C=0;C<D.CList.length;C++){
+Scroll.AddTransFuncts(0,1,function(){// During 0 1 transition
+  for(var C=0;C<D.CList.length;C++){//Loop through all Connects
     var Conne=D.CList[C];
-    if(Conne.Respect>0){
+    if(Conne.Respect>0){// If pos lerp twoards 1
       Conne.Respect=lerp(Conne.Respect,1,0.05);
     }
-    if(Conne.Respect<0){
+    if(Conne.Respect<0){// else lerp twoards -1
       Conne.Respect=lerp(Conne.Respect,-1,0.05);
     }
   }
 })
-Scroll.AddEndFuncts(0,1,function(){
-  for(var C=0;C<D.CList.length;C++){
+Scroll.AddEndFuncts(0,1,function(){//At end of trans
+  for(var C=0;C<D.CList.length;C++){//Set them all to one or negitave one
     var Conne=D.CList[C];
     if(Conne.Respect>0){
       Conne.Respect=1;
@@ -83,121 +80,86 @@ Scroll.AddEndFuncts(0,1,function(){
     }
   }
 })
-Scroll.AddTransFuncts(1,0,function(){
+Scroll.AddTransFuncts(1,0,function(){//when Going back from 1 to 0
   for(var C=0;C<D.CList.length;C++){
     var Conne=D.CList[C];
-    if(Conne.Respect>0){
-      Conne.Respect=lerp(Conne.Respect,0,0.05);
-    }
-    if(Conne.Respect<0){
-      Conne.Respect=lerp(Conne.Respect,0,0.05);
-    }
+    Conne.Respect=lerp(Conne.Respect,0,0.05);// lero twoards 0
   }
 })
 Scroll.AddEndFuncts(1,0,function(){
-  D.CList=[];
+  D.CList=[];//When back up, clear CList
 })
-Scroll.AddStateFuncts(1,function(){
-    BallClickCheck();
-    if(MousePress.H){
-      D.MouseInteract(mouseFixedDoc(pa),-1)
-    }else{
-      D.MouseInteract(mouseFixedDoc(pa),1)
+Scroll.AddStateFuncts(1,function(){//At one
+    BallClickCheck();//Check for people click
+    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//No person click
+      if(MousePress.H){// Do Interaction
+        D.MouseInteract(mouseFixedDoc(pa),-1)
+      }else{
+        D.MouseInteract(mouseFixedDoc(pa),1)
+      }
     }
+})
+Scroll.AddStartFuncts(1,2,function(){//At start 1 to 2
+  D.Speed=0;//Speed set 0
+})
+Scroll.AddTransFuncts(1,2,function(){
+  D.Speed=tween(D.Speed,0.02,0.05);//Lerp twoards 0.02
+})
+Scroll.AddEndFuncts(1,2,function(){
+  D.Speed=0.02;// Set as 0.02
 })
 Scroll.AddStateFuncts(2,function(){
-    BallClickCheck();
-    D.UpdatePos();
-    if(MousePress.H){
-      D.MouseInteract(mouseFixedDoc(pa),-1)
-    }else{
-      D.MouseInteract(mouseFixedDoc(pa),1)
+    BallClickCheck();//People check
+    D.UpdatePos();// This time things update spacewise
+    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//More interact
+      if(MousePress.H){
+        D.MouseInteract(mouseFixedDoc(pa),-1)
+      }else{
+        D.MouseInteract(mouseFixedDoc(pa),1)
+      }
     }
 })
-
+Scroll.AddTransFuncts(2,1,function(){// The reverse part
+  D.Speed=tween(D.Speed,0,0.05);
+})
+Scroll.AddEndFuncts(2,1,function(){
+  D.Speed=0;
+})
+Scroll.AddStateFuncts(3,function(){// At state 3
+    BallClickCheck();// The same as 2
+    D.UpdatePos();
+    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){
+      if(MousePress.H){
+        D.MouseInteract(mouseFixedDoc(pa),-1)
+      }else{
+        D.MouseInteract(mouseFixedDoc(pa),1)
+      }
+    }
+})
+Scroll.AddStartFuncts(2,3,function(){//Transition from 2 to 3 start
+  for(var N=0;N<12;N++){//Add nine Particles with rad 1 (shift pos later with cam)
+    var Position=new vect(Math.cos(N/9*2*Math.PI)*ca.height/2,Math.sin(N/9*2*Math.PI)*ca.height/2);
+    Position=Vscale(Position,D.Cam.Scale*2);
+    Position=Vadd(Position,D.Cam.ComPos(new vect(pa.width/2,pa.height/2)));
+    D.PList.push(new Person(Position,D));
+    D.ConnectToRandom(D.PList.length-1,3);//Add new random connects
+  }
+})
+Scroll.AddTransFuncts(2,3,function(){// During trans
+  for(var C=0;C<D.CList.length;C++){// Move to 1 or -1
+    var Conne=D.CList[C];
+    if(Conne.Respect>0){
+      Conne.Respect=lerp(Conne.Respect,1,0.005);
+    }
+    if(Conne.Respect<0){
+      Conne.Respect=lerp(Conne.Respect,-1,0.005);
+    }
+  }
+})
 function animatePa(){//Animator
   Scroll.setPos();//Sets the Canvas Position
   Scroll.CalcPos();//Calc the text El next to canvas
   Scroll.TextEl(Scroll.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
   Scroll.UpdateSystem();
-  // if(Scroll.CurrPos===0) {//if CurrPos is 0
-  //   if(tween(-10,pa.width+10,mouseFixedDoc(pa).x)&&tween(-10,pa.height+10,mouseFixedDoc(pa).y)){//if dot on mouse is on canvas
-      // if(MouseClick.H){//If Mouse is clicked
-      //   Fa.beginPath();//Draw A ball at mouse Pos;
-      //   Fa.arc(mouseFixedDoc(pa).x,mouseFixedDoc(pa).y,
-      //   10,0,Math.PI*2,false);
-      //   Fa.lineWidth=3;
-      //   Fa.strokeStyle='rgba(255,255,255,1)';
-      //   Fa.fillStyle='rgba(255,0,0,1)';
-      //   Fa.stroke();
-      //   Fa.fill();
-      //   D.PList.push(new Person(D.Cam.ComPos(mouseFixedDoc(pa)),D));//Add New Person at that position
-      // }
-  //    }
-  // }
-  //   Scroll.UpdateTrans(0,1);
-  //   Scroll.StoreTrans(0,1);
-  //   if(Scroll.GetTrans(0,1).HLength>0){
-  //     if(Scroll.GetTrans(0,1).HLength===1){
-  //       if(D.PList.length>0){
-  //         var RandA=0;
-  //         var RandB=0;
-  //         for(var N=0;N<10;N++){
-  //           RandA=randInt(0,D.PList.length-1);
-  //           RandB=randInt(0,D.PList.length-1);
-  //           var Connec=new Connect(RandA,RandB,(Math.random()-.5)*0.01,D)
-  //           if(D.ConnectNew(Connec)&&D.ConnectLegal(Connec)){
-  //             D.CList.push(Connec);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     for(var C=0;C<D.CList.length;C++){
-  //       var Conne=D.CList[C];
-  //       if(Conne.Respect>0){
-  //         Conne.Respect=Scroll.GetTrans(0,1).HLength/70;
-  //       }
-  //       if(Conne.Respect<0){
-  //         Conne.Respect=-Scroll.GetTrans(0,1).HLength/70;
-  //       }
-  //     }
-  //   }
-  //
-  //   Scroll.UpdateTrans(1,0);
-  //   Scroll.StoreTrans(1,0);
-  //   if(Scroll.GetTrans(1,0).H){
-  //     if(Scroll.GetTrans(1,0).HLength===70){
-  //       D.CList=[];
-  //     }
-  //     for(var Ca=0;Ca<D.CList.length;Ca++){
-  //       var Conn=D.CList[Ca];
-  //       if(Conn.Respect>0){
-  //         Conn.Respect=1-Scroll.GetTrans(1,0).HLength/70;
-  //       }
-  //       if(Conn.Respect<0){
-  //         Conn.Respect=-1+Scroll.GetTrans(1,0).HLength/70;
-  //       }
-  //     }
-  //   }
-  //   if(Scroll.CurrPos>=2){
-  //      D.UpdatePos();
-  //   }
-  //   Scroll.UpdateTrans(2,3);
-  //   Scroll.StoreTrans(2,3);
-  //   if(Scroll.GetTrans(2,3).H){
-  //     if(Scroll.GetTrans(2,3).HLength===1){
-  //       D.NextCam.Scale=10;
-  //     }
-  //     D.Interp=Scroll.GetTrans(2,3).HLength/70;
-  //     D.SetScreenInterp();
-  //   }
-  //   Scroll.UpdateTrans(3,2);
-  //   Scroll.GetTrans(3,2).E=Scroll.GetTrans(2,3).H;
-  //   Scroll.StoreTrans(3,2);
-  //   if(Scroll.GetTrans(3,2).H){
-  //     D.Interp=1-Scroll.GetTrans(3,2).HLength/70;
-  //     D.SetScreenInterp();
-  //   }
-
-    D.Draw(Fa);
+  D.Draw(Fa);
 }

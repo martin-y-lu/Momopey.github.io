@@ -248,6 +248,14 @@ function Community(){// Class for system of people
     }
     return PersonNumber;
   }
+  this.ConnectToRandom=function(A,T){//Add T new random connections going from A 
+    for(var I=0;I<T;I++){
+      var Conn=new Connect(randInt(0,D.PList.length-1),A,(Math.random()-.5)*0.01,D);
+      if(D.ConnectLegal(Conn)&&D.ConnectNew(Conn)){
+        D.CList.push(Conn);
+      }
+    }
+  }
   this.SetScreenInterp=function(){// Sets the interp for Cam.
     this.Cam.Shift.x=lerp(this.PrevCam.Shift.x,this.NextCam.Shift.x,this.Interp);
     this.Cam.Shift.y=lerp(this.PrevCam.Shift.y,this.NextCam.Shift.y,this.Interp);
@@ -376,7 +384,7 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
   this.StoreTrans=function(A,B){//Stores the new vars of Tran from A to B
     this.CallForTrans(A,B).Store();
   }
-  this.AddStartFuncs=function(A,B,F){//Adds a new funct to StartFuncts given A and B
+  this.AddStartFuncts=function(A,B,F){//Adds a new funct to StartFuncts given A and B
     this.StartFuncts.push([A,B,F]);
   }
   this.AddTransFuncts=function(A,B,F){// Adds to Trans//Adds to during trans functs
