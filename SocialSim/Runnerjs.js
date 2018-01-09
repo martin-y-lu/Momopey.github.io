@@ -1,6 +1,6 @@
 // JS setup functions
 /////-----------
-var mouse={x:0,y:0}  ;// mouse position on screen
+var mouse=new vect(0,0);// mouse position on screen
 var mousePress=false;// Mouse held down
 var scroll=new vect(0,0);//scroll X,Y
 //Event listsneys

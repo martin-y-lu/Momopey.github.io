@@ -12,6 +12,9 @@ function ElementAllOnScreen(El){
     tween(0,innerWidth,ElementCornerOffset(El).x)&&
     tween(0,innerWidth,ElementBottomOffset(El).x);
 }
+function MouseInElement(El){
+  return tween(0,El.width,mouseDoc(El).x)&&tween(0,El.height,mouseDoc(El).y);
+}
 function PxToInt(String){// Removes "px", turns to int
   return parseFloat(String.substring(0, String.length - 2));
 }
@@ -22,12 +25,15 @@ function ElementBottomOffset(El){// returns position for botom right corner
   return new vect(El.offsetLeft+El.offsetWidth-scroll.x,El.offsetTop+El.offsetHeight-scroll.y);
 }
 function mouseDoc(doc){// Gives mouse position in the canvas or element
-  return new vect(mouse.x-ElementCornerOffset(doc).x,
-                  mouse.y-ElementCornerOffset(doc).y)
-}
-function mouseFixedDoc(doc){// For fixed elements
-  return new vect(mouse.x-doc.offsetLeft,
-                  mouse.y-doc.offsetTop)
+  var Ret;
+  if(doc.style.cssText !=null){
+    Ret=new vect(mouse.x-doc.offsetLeft,
+                    mouse.y-doc.offsetTop)
+  }else{
+    Ret=new vect(mouse.x-ElementCornerOffset(doc).x,
+                    mouse.y-ElementCornerOffset(doc).y);
+  }
+  return Ret
 }
 
 function Hold(){// Simple class for button presses/ other stuff like that
@@ -248,7 +254,7 @@ function Community(){// Class for system of people
     }
     return PersonNumber;
   }
-  this.ConnectToRandom=function(A,T){//Add T new random connections going from A 
+  this.ConnectToRandom=function(A,T){//Add T new random connections going from A
     for(var I=0;I<T;I++){
       var Conn=new Connect(randInt(0,D.PList.length-1),A,(Math.random()-.5)*0.01,D);
       if(D.ConnectLegal(Conn)&&D.ConnectNew(Conn)){
@@ -438,24 +444,26 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
     }
   }
   this.UpdateSystem=function(){//Update/ run all
-    this.UpdateHList();
+    if(ElementAllOffScreen(CanvasEl)===false){
+      this.UpdateHList();
 
-    this.RunStateFuncts();
-    this.RunEndFuncts();
-    this.RunTransFuncts();
-    this.RunStartFuncts();
+      this.RunStateFuncts();
+      this.RunEndFuncts();
+      this.RunTransFuncts();
+      this.RunStartFuncts();
+    }
   }
   this.CalcPos=function(){//Calculates the Currpos, the textel next to canvas
     this.LastPos=this.CurrPos;
     var CurrDist=1000;
-      for(var P=0;P<this.TextEls.length;P++){
-     var E=this.TextEl(P);
-     if((Math.abs(ElementCornerOffset(E).y-innerHeight*.3)<CurrDist)&&(ElementAllOnScreen(E))){
-       CurrDist=Math.abs(ElementCornerOffset(E).y-innerHeight*.3);
-       this.CurrPos=P;
-     }
+    for(var P=0;P<this.TextEls.length;P++){
+      var E=this.TextEl(P);
+      if((Math.abs(ElementCornerOffset(E).y-innerHeight*.3)<CurrDist)&&(ElementAllOnScreen(E))){
+        CurrDist=Math.abs(ElementCornerOffset(E).y-innerHeight*.3);
+        this.CurrPos=P;
+      }
       E.style.color='rgba(200,200,200,1)';
-   }
+    }
   }
   this.setPos=function(){// Calculates Position of the Canvas given the scrolls;
      var Left=ElementBottomOffset(this.ScrollEl).x;

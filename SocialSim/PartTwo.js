@@ -14,10 +14,13 @@ var ScrollB= new Scroller(document.getElementById("P2"),//Top element
                         document.getElementById("P2E3"),
                         document.getElementById("P2E4")],
                         pb);//Canvas El
+
+
+var E=new Community();
 function animatePb(){//Animator
   ScrollB.setPos();//Sets the Canvas Position
   ScrollB.CalcPos();//Calc the text El next to canvas
-  ScrollB.TextEl(Scroll.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
+  ScrollB.TextEl(ScrollB.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
   ScrollB.UpdateSystem();
-  //D.Draw(Fa);
+  E.Draw(Fb);
 }

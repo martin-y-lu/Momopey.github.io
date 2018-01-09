@@ -6,7 +6,6 @@ var ScrollA= new Scroller(document.getElementById("P1"),//Top element
                         document.getElementById("P1E3"),
                         document.getElementById("P1E4")],
                         pa);//Canvas El
-var MouseClick=new Hold();//Mouse Down Hold
 var D=new Community();//New Community for Scroll one
 //Set starting Cameras and Scales
 D.Cam.Scale=1.3;
@@ -18,29 +17,28 @@ D.NextCam.Scale=1.4;
 var BallHoldNum;
 var BallClickCheck= function(){// Moves people if they are clicked
   if(MousePress.H){
-    if(MousePress.HLength===1){
-      BallHoldNum=D.MouseOnPersons(mouseFixedDoc(pa))
+    if(MousePress.HLength===1&&MouseInElement(pa)){
+      BallHoldNum=D.MouseOnPersons(mouseDoc(pa))
     }else{
       if(BallHoldNum!=null){
-        console.log("mouse on toppa "+D.MouseOnPersons(mouseFixedDoc(pa)))
-        D.PList[BallHoldNum].Pos=D.Cam.ComPos(mouseFixedDoc(pa));
+        D.PList[BallHoldNum].Pos=D.Cam.ComPos(mouseDoc(pa));
       }
     }
   }
 }
 ScrollA.AddStateFuncts(0,function(){// On the first state
   BallClickCheck();// People click
-  if(MousePress.HLength===1){//If just tapped
-    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){// If not clicking on ball
+  if(MousePress.HLength===1&&MouseInElement(pa)){//If just tapped
+    if(D.MouseOnPersons(mouseDoc(pa))===null){// If not clicking on ball
       Fa.beginPath();//Draw A ball at mouse Pos;
-      Fa.arc(mouseFixedDoc(pa).x,mouseFixedDoc(pa).y,
+      Fa.arc(mouseDoc(pa).x,mouseDoc(pa).y,
       10,0,Math.PI*2,false);
       Fa.lineWidth=3;
       Fa.strokeStyle='rgba(255,255,255,1)';
       Fa.fillStyle='rgba(255,0,0,1)';
       Fa.stroke();
       Fa.fill();
-      D.PList.push(new Person(D.Cam.ComPos(mouseFixedDoc(pa)),D));//Add New Person at that position
+      D.PList.push(new Person(D.Cam.ComPos(mouseDoc(pa)),D));//Add New Person at that position
     }
   }
 })
@@ -91,11 +89,11 @@ ScrollA.AddEndFuncts(1,0,function(){
 })
 ScrollA.AddStateFuncts(1,function(){//At one
     BallClickCheck();//Check for people click
-    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//No person click
+    if(D.MouseOnPersons(mouseDoc(pa))===null){//No person click
       if(MousePress.H){// Do Interaction
-        D.MouseInteract(mouseFixedDoc(pa),-1)
+        D.MouseInteract(mouseDoc(pa),-1)
       }else{
-        D.MouseInteract(mouseFixedDoc(pa),1)
+        D.MouseInteract(mouseDoc(pa),1)
       }
     }
 })
@@ -111,11 +109,11 @@ ScrollA.AddEndFuncts(1,2,function(){
 ScrollA.AddStateFuncts(2,function(){
     BallClickCheck();//People check
     D.UpdatePos();// This time things update spacewise
-    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){//More interact
+    if(D.MouseOnPersons(mouseDoc(pa))===null){//More interact
       if(MousePress.H){
-        D.MouseInteract(mouseFixedDoc(pa),-1)
+        D.MouseInteract(mouseDoc(pa),-1)
       }else{
-        D.MouseInteract(mouseFixedDoc(pa),1)
+        D.MouseInteract(mouseDoc(pa),1)
       }
     }
 })
@@ -128,16 +126,16 @@ ScrollA.AddEndFuncts(2,1,function(){
 ScrollA.AddStateFuncts(3,function(){// At state 3
     BallClickCheck();// The same as 2
     D.UpdatePos();
-    if(D.MouseOnPersons(mouseFixedDoc(pa))===null){
+    if(D.MouseOnPersons(mouseDoc(pa))===null){
       if(MousePress.H){
-        D.MouseInteract(mouseFixedDoc(pa),-1)
+        D.MouseInteract(mouseDoc(pa),-1)
       }else{
-        D.MouseInteract(mouseFixedDoc(pa),1)
+        D.MouseInteract(mouseDoc(pa),1)
       }
     }
 })
 ScrollA.AddStartFuncts(2,3,function(){//Transition from 2 to 3 start
-  for(var N=0;N<12;N++){//Add nine Particles with rad 1 (shift pos later with cam)
+  for(var N=0;N<8;N++){//Add nine Particles with rad 1 (shift pos later with cam)
     var Position=new vect(Math.cos(N/9*2*Math.PI)*ca.height/2,Math.sin(N/9*2*Math.PI)*ca.height/2);
     Position=Vscale(Position,D.Cam.Scale*2);
     Position=Vadd(Position,D.Cam.ComPos(new vect(pa.width/2,pa.height/2)));
@@ -149,10 +147,10 @@ ScrollA.AddTransFuncts(2,3,function(){// During trans
   for(var C=0;C<D.CList.length;C++){// Move to 1 or -1
     var Conne=D.CList[C];
     if(Conne.Respect>0){
-      Conne.Respect=lerp(Conne.Respect,1,0.005);
+      Conne.Respect=lerp(Conne.Respect,1,0.03);
     }
     if(Conne.Respect<0){
-      Conne.Respect=lerp(Conne.Respect,-1,0.005);
+      Conne.Respect=lerp(Conne.Respect,-1,0.03);
     }
   }
 })
