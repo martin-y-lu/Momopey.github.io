@@ -1,5 +1,4 @@
-// JS setup functions
-/////-----------
+// Go runner go! Where all the functions and crap finnaly happen
 var mouse=new vect(0,0);// mouse position on screen
 var mousePress=false;// Mouse held down
 var scroll=new vect(0,0);//scroll X,Y
@@ -30,10 +29,12 @@ C.Speed=0.008;//Set Community speed
 
 C.LikeDist=ca.height*.35;//Set Like dist
 C.HateDist=C.LikeDist*2;//Set Hate Dist
+
 function animateSystem(){//Animator
 ca.width=innerWidth;//Set innerwidth
 C.Cam.Shift=new vect(ca.width/2,ca.height/2);//Set Camshift halfway
-F.clearRect(0, 0, innerWidth, innerHeight);//Scale
+
+//F.clearRect(0, 0, innerWidth, innerHeight);
 
 C.MouseInteract(mouseDoc(ca),-1);//Mouse Interaction
 C.UpdatePos();
@@ -41,7 +42,6 @@ C.UpdateAll()
 
 C.Draw(F);
 }
-
 var MousePress=new Hold();
 var MouseClick=new Hold();
 function animateCore(){
@@ -52,7 +52,7 @@ function animateCore(){
 
     requestAnimationFrame(animateCore);
     animateSystem();
-    animatePa();
+    //animatePa();
     animatePb();
 }
 animateCore();

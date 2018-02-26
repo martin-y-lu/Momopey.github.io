@@ -88,6 +88,8 @@ button{
   padding: 0;
   border: none;
   background: none;
+
+  font-family:Mukta,sans-serif;
   font-size: 20px;
 }
 #small{

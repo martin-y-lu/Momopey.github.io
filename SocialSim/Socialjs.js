@@ -1,6 +1,6 @@
 // JS setup functions
 /////-----------
-//Functions for CSS managment
+//---------Functions for CSS managment
 function ElementAllOffScreen(El){//Checks if an element is off of the screen completley
   var rect = El.getBoundingClientRect();
   return (rect.left + rect.width) < 0 || (rect.top + rect.height) < 0|| (rect.left >innerWidth || rect.top > innerHeight);
@@ -33,9 +33,9 @@ function mouseDoc(doc){// Gives mouse position in the canvas or element
     Ret=new vect(mouse.x-ElementCornerOffset(doc).x,
                     mouse.y-ElementCornerOffset(doc).y);
   }
-  return Ret
+  return Ret;
 }
-
+//---------Interaction Management
 function Hold(){// Simple class for button presses/ other stuff like that
   this.S=false;// Started
   this.H=false;// Holding
@@ -63,6 +63,24 @@ function Hold(){// Simple class for button presses/ other stuff like that
     if(this.S){this.SLength++;}else{this.SLength=0;}
     if(this.H){this.HLength++;}else{this.HLength=0;}
     if(this.E){this.ELength++;}else{this.ELength=0;}
+  }
+}
+function Button(Pos,Size,StateNumber,Initialise,Update,Display){//Button class
+  this.P=Pos; /// Technically also Internal variables(F)
+  this.S=Size;
+  this.G=[];//Given Inputs (for external to feed in)
+  this.B=[];//Button States
+  this.F=[];//Internal variables
+  this.I=Initialise;
+  this.U=Update;
+  this.D=Display;
+
+  this.MouseOn=function(Con){// Checks if mouse is in button.
+    return(tween(this.P.x,this.P.x+this.S.x,mouseDoc(Con).x)&&tween(this.P.y,this.P.y+this.S.y,mouseDoc(Con).y));
+  }
+  //All Initialisations
+  for(var N=0;N<StateNumber;N++){
+    this.B.push(new Hold());
   }
 }
 
@@ -228,6 +246,20 @@ function Community(){// Class for system of people
       Conn.PerB.Pos=Vadd(CurrPosA,Vscale(Vadd(CurrPosB,Vscale(CurrPosA,-1)),Scaler));
     }
   }
+  this.MouseOnConnect=function(Mouse){
+    var MousePos=this.Cam.ComPos(Mouse);
+    var List=[];
+    for(var C=0;C<this.CList.length;C++){
+      var Conn=this.CList[C];
+      var Dist=Vlength(Vadd(Conn.PerA.Pos,Vscale(Conn.PerB.Pos,-1)));
+      var DistA=Vlength(Vadd(Conn.PerA.Pos,Vscale(MousePos,-1)));
+      var DistB=Vlength(Vadd(Conn.PerB.Pos,Vscale(MousePos,-1)));
+      if(DistA+DistB<Dist+10){
+        List.push(C);
+      }
+    }
+    return List;
+  }
   this.MouseInteract=function(Mouse,TargetRespect){// Changes the connects when mouse is nearby
     var MousePos=this.Cam.ComPos(Mouse);
     for(var C=0;C<this.CList.length;C++){
@@ -245,11 +277,22 @@ function Community(){// Class for system of people
     var MousePos=this.Cam.ComPos(Mouse);
     var PersonNumber=null;
     for(var P=0;P<this.PList.length;P++){
-      //console.log(Vlength(Vdiff(MousePos,this.PList[P].Pos)));
       if(Vlength(Vdiff(MousePos,this.PList[P].Pos))<20){
         if(PersonNumber==null){
           PersonNumber=P;
         }
+      }
+    }
+    return PersonNumber;
+  }
+  this.MouseClosestPerson=function(Mouse){
+    var MousePos=this.Cam.ComPos(Mouse);
+    var PersonNumber=null;
+    var SmallestDist=1000101001;
+    for(var P=0;P<this.PList.length;P++){
+      if(Vlength(Vdiff(MousePos,this.PList[P].Pos))<=SmallestDist){
+        SmallestDist=Vlength(Vdiff(MousePos,this.PList[P].Pos));
+        PersonNumber=P;
       }
     }
     return PersonNumber;
@@ -276,7 +319,7 @@ function Community(){// Class for system of people
     }
   }
 }
-function Person(Pos,Com){// Class for the peeps
+function Person(Pos,Com){// Class for the people SOYUZ NRERSMERINSKY RESPUBLIC
   this.Com=Com;// Given comunity;
   this.Pos=Pos;//Position in space
   this.NextPos=this.Pos;//Next position
@@ -446,7 +489,6 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
   this.UpdateSystem=function(){//Update/ run all
     if(ElementAllOffScreen(CanvasEl)===false){
       this.UpdateHList();
-
       this.RunStateFuncts();
       this.RunEndFuncts();
       this.RunTransFuncts();
@@ -469,9 +511,14 @@ function Scroller(ScrollEl,TextEls,CanvasEl){// Class for scrolly elements
      var Left=ElementBottomOffset(this.ScrollEl).x;
      var Upper=ElementCornerOffset(this.ScrollEl).y;
      var Lower=ElementBottomOffset(this.ScrollEl).y;
-    this.CanvasEl.style.left=Left+"px";
-    this.CanvasEl.width=innerWidth-PxToInt(pa.style.left);
-
+     if(!isNaN(Left)){
+       this.CanvasEl.style.left=Left+"px";
+       this.CanvasEl.width=innerWidth-Left;
+     }else{
+       this.CanvasEl.style.left="0 px";
+       this.CanvasEl.width=innerWidth;
+     }
+     console.log("Width-"+this.CanvasEl.width+" Inner Width-"+innerWidth+" Canvas Left-"+Left)
     this.CanvasEl.style.top=0;
     this.CanvasEl.height=innerHeight;
     if(Upper>0){
