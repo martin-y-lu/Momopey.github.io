@@ -52,7 +52,7 @@ function animateCore(){
 
     requestAnimationFrame(animateCore);
     animateSystem();
-    //animatePa();
+    animatePa();
     animatePb();
 }
 animateCore();
