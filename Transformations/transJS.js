@@ -87,7 +87,9 @@ function Scene(Matrix,PointsList,Elem){
     this.ca.height = this.ca.clientHeight;
   }
   this.Display=function(){
-    DrawGraph(this.ctx);
+    DrawGraph1(this.ctx);
+  }
+  this.DrawPoints=function(){
     DrawPointsGraph1(this.Points,this.ctx);// Draw Points
     DrawPointsGraph2(this.Points,this.Mat,this.ctx)
   }
@@ -99,6 +101,17 @@ function Scene(Matrix,PointsList,Elem){
   }
   this.UpdateText=function(textIMG){
     textIMG.src= UpdateString(this.Mat,this.Points,this.HoldNum);
+  }
+  this.DrawBasisGraph=function(){
+    DrawBasisGraph(this.Mat,this.ctx);
+  }
+  this.DrawBasisVectors=function(){
+    DrawBasisVectors(this.Mat,this.ctx);
+  }
+  this.DrawBasisSelection=function(){
+    if(this.HoldNum!=null){
+      DrawBasisSelection(this.Points[this.HoldNum],this.Mat,ctx1)
+    }
   }
 }
 function drawLine(X1,Y1,X2,Y2,con){
@@ -168,8 +181,8 @@ function UpdateString(Mat,Points,HoldNum){
   }
   S+=LatexMat([[InVect[0]],[InVect[1]]]);
   S+="="
-  var GeneralOut=[[InVect[0]+"("+Mat[0][0]+")"+((InVect[1]>0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[0][1]+")"],
-                  [InVect[0]+"("+Mat[1][0]+")"+((InVect[1]>0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[1][1]+")"]]
+  var GeneralOut=[[InVect[0]+"("+Mat[0][0]+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[0][1]+")"],
+                  [InVect[0]+"("+Mat[1][0]+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[1][1]+")"]]
   S+=LatexMat(GeneralOut);
   if(HoldNum!=null){
     S+="=";
@@ -178,14 +191,13 @@ function UpdateString(Mat,Points,HoldNum){
   }
   return S;
 }
-function DrawGraph(ctx){
-  ctx.beginPath();
+function DrawGraph1(ctx){
+  //ctx.beginPath();
   ctx.strokeStyle="rgb(100,100,100)";
+  ctx.lineWidth=1;
   drawLine(0,150,400-20,150,ctx);// Horisontal lines
-  drawLine(400+20,150,800,150,ctx);
-
   drawLine((400-20)/2,0,(400-20)/2,300,ctx);// Vertical lines
-  drawLine((800+400+20)/2,0,(800+400+20)/2,300,ctx);
+
   //Graph
   for(var i=0;i<= (150/30);i++){//Y dashes
     var P={x:0,y:i};
@@ -203,23 +215,72 @@ function DrawGraph(ctx){
     var P={x:-i,y:0};
     drawLinePos(Vadd(PtoGraph1(P),{x:0,y:-5}),Vadd(PtoGraph1(P),{x:0,y:5}),ctx);
   }
-  //Graph2
+}
+function DrawGraph2(color,ctx){
+  ctx.strokeStyle=color;
+  ctx.lineWidth=1;
+  drawLine(400+20,150,800,150,ctx);
+  drawLine((800+400+20)/2,0,(800+400+20)/2,300,ctx);
   for(var i=0;i<= (150/30);i++){//Y dashes
     var P={x:0,y:i};
-    drawLinePos(Vadd(PtoGraph2(P),{x:-5,y:0}),Vadd(PtoGraph2(P),{x:5,y:0}),ctx);
+    drawLinePos(PtoGraph2(Vadd(P,{x:-5/30,y:0})),PtoGraph2(Vadd(P,{x:5/30,y:0})),ctx);
   }
   for(var i=0;i<= (150/30);i++){
     var P={x:0,y:-i};
-    drawLinePos(Vadd(PtoGraph2(P),{x:-5,y:0}),Vadd(PtoGraph2(P),{x:5,y:0}),ctx);
+    drawLinePos(PtoGraph2(Vadd(P,{x:-5/30,y:0})),PtoGraph2(Vadd(P,{x:5/30,y:0})),ctx);
   }
   for(var i=0;i<=(((400-20)/2)/30);i++){//X dashes
     var P={x:i,y:0};
-    drawLinePos(Vadd(PtoGraph2(P),{x:0,y:-5}),Vadd(PtoGraph2(P),{x:0,y:5}),ctx);
+    drawLinePos(PtoGraph2(Vadd(P,{x:0,y:-5/30})),PtoGraph2(Vadd(P,{x:0,y:5/30})),ctx);
   }
   for(var i=0;i<=(((400-20)/2)/30);i++){
     var P={x:-i,y:0};
-    drawLinePos(Vadd(PtoGraph2(P),{x:0,y:-5}),Vadd(PtoGraph2(P),{x:0,y:5}),ctx);
+    drawLinePos(PtoGraph2(Vadd(P,{x:0,y:-5/30})),PtoGraph2(Vadd(P,{x:0,y:5/30})),ctx);
   }
+}
+function DrawBasisGraph(Mat,ctx){
+  ctx.strokeStyle="rgb(100,100,100)";
+  ctx.lineWidth=1;
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:0,y:-((400-20)/2)/30})),PtoGraph2(MatMult(Mat,{x:0,y:((400-20)/2)/30})),ctx);
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:-150/30,y:0})),PtoGraph2(MatMult(Mat,{x:150/30,y:0})),ctx);
+  for(var i=0;i<= (150/30);i++){//Y dashes
+    var P={x:0,y:i};
+    drawLinePos(PtoGraph2(MatMult(Mat,Vadd(P,{x:-5/30,y:0}))),PtoGraph2(MatMult(Mat,Vadd(P,{x:5/30,y:0}))),ctx);
+  }
+  for(var i=0;i<= (150/30);i++){
+    var P={x:0,y:-i};
+    drawLinePos(PtoGraph2(MatMult(Mat,Vadd(P,{x:-5/30,y:0}))),PtoGraph2(MatMult(Mat,Vadd(P,{x:5/30,y:0}))),ctx);
+    //drawLinePos(PtoGraph2(Vadd(P,{x:-5/30,y:0})),PtoGraph2(Vadd(P,{x:5/30,y:0})),ctx);
+  }
+  for(var i=0;i<=(((400-20)/2)/30);i++){//X dashes
+    var P={x:i,y:0};
+    //drawLinePos(PtoGraph2(Vadd(P,{x:0,y:-5/30})),PtoGraph2(Vadd(P,{x:0,y:5/30})),ctx);
+    drawLinePos(PtoGraph2(MatMult(Mat,Vadd(P,{x:0,y:-5/30}))),PtoGraph2(MatMult(Mat,Vadd(P,{x:0,y:5/30}))),ctx);
+  }
+  for(var i=0;i<=(((400-20)/2)/30);i++){
+    var P={x:-i,y:0};
+    //drawLinePos(PtoGraph2(Vadd(P,{x:0,y:-5/30})),PtoGraph2(Vadd(P,{x:0,y:5/30})),ctx);
+    drawLinePos(PtoGraph2(MatMult(Mat,Vadd(P,{x:0,y:-5/30}))),PtoGraph2(MatMult(Mat,Vadd(P,{x:0,y:5/30}))),ctx);
+  }
+}
+function DrawBasisVectors(Mat,ctx){
+  ctx.lineWidth=2;
+  ctx.strokeStyle="rgb(255,100,100)";
+  drawLinePos(PtoGraph1({x:0,y:1}),PtoGraph1({x:0,y:0}),ctx);
+  drawLinePos(PtoGraph1({x:0,y:1}),PtoGraph1({x:0.2,y:1-0.4}),ctx);
+  drawLinePos(PtoGraph1({x:0,y:1}),PtoGraph1({x:-0.2,y:1-0.4}),ctx);
+  ctx.strokeStyle="rgb(100,255,100)";
+  drawLinePos(PtoGraph1({x:1,y:0}),PtoGraph1({x:0,y:0}),ctx);
+  drawLinePos(PtoGraph1({x:1,y:0}),PtoGraph1({x:1-0.4,y:0.2}),ctx);
+  drawLinePos(PtoGraph1({x:1,y:0}),PtoGraph1({x:1-0.4,y:-0.2}),ctx);
+  ctx.strokeStyle="rgb(255,100,100)";
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:0,y:1})),PtoGraph2(MatMult(Mat,{x:0,y:0})),ctx);
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:0,y:1})),PtoGraph2(MatMult(Mat,{x:0.2,y:1-0.4})),ctx);
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:0,y:1})),PtoGraph2(MatMult(Mat,{x:-0.2,y:1-0.4})),ctx);
+  ctx.strokeStyle="rgb(100,255,100)";
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:0,y:0})),ctx);
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:0.2})),ctx);
+  drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:-0.2})),ctx);
 }
 function DrawPointsGraph1(PList,ctx){
   for(var i=0;i<PList.length;i++){
@@ -235,10 +296,28 @@ function DrawPointsGraph2(PList,Mat,ctx){
   }
 }
 function DrawSelection(Poi,Mat,ctx){
+  ctx.lineWidth=1;
+  ctx.strokeStyle="rgb(10,140,10)";
   drawLinePos(PtoGraph1(Poi),PtoGraph1({x:0,y:Poi.y}),ctx);
+  ctx.strokeStyle="rgb(140,10,10)";
   drawLinePos(PtoGraph1(Poi),PtoGraph1({x:Poi.x,y:0}),ctx);
   drawCircle(PtoGraph1(Poi).x, PtoGraph1(Poi).y, 10,ctx)
   if(PinGraph(MatMult(Mat,Poi))){
+    //DrawBasisSelection(Poi,Mat,ctx);
     drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
   }
 }
+function DrawBasisSelection(Poi,Mat,ctx){
+  ctx.lineWidth=1;
+  ctx.strokeStyle="rgb(10,140,10)";
+  drawLinePos(PtoGraph2(MatMult(Mat,Poi)),PtoGraph2(MatMult(Mat,{x:0,y:Poi.y})),ctx);
+  ctx.strokeStyle="rgb(140,10,10)";
+  drawLinePos(PtoGraph2(MatMult(Mat,Poi)),PtoGraph2(MatMult(Mat,{x:Poi.x,y:0})),ctx);
+  if(PinGraph(MatMult(Mat,Poi))){
+    //DrawBasisSelection(Poi,Mat,ctx);
+    drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
+  }
+  //drawCircle(PtoGraph1(MatMult(Mat,Poi)).x, PtoGraph1(MatMult(Mat,Poi)).y, 10,ctx);
+  // if(PinGraph(MatMult(Mat,Poi))){
+  //   drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
+ }

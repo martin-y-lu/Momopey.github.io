@@ -9,6 +9,8 @@ function animateTransA(){
   window.requestAnimationFrame(animateTransA);
   ctx.clearRect(0, 0, ca.width, ca.height);
   MatScene.Display();
+  DrawGraph2("rgb(100,100,100)",ctx);
+  MatScene.DrawPoints();
   MatScene.Interact();
   MatScene.UpdateText(document.getElementById("2dMatrixText"));
 
