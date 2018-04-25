@@ -28,14 +28,14 @@ function drawLine(X1,Y1,X2,Y2,con){
 }
 function lineBall(X,Y,R,con){
     con.beginPath();
-    con.arc(X,Y,   
+    con.arc(X,Y,
     R,0,Math.PI*2,false);
     //con.strokeStyle='rgba(255,255,255,1)';
     con.stroke();
 }
 function fillBall(X,Y,R,con){
     con.beginPath();
-    con.arc(X,Y,   
+    con.arc(X,Y,
     R,0,Math.PI*2,false);
     con.strokeStyle='rgba(255,255,255,1)';
     con.stroke();
@@ -65,13 +65,12 @@ function Vdiv(P,C){
   return new vect((C.x*P.x+C.y*P.y)/((C.x*C.x)+(C.y*C.y)),
   (C.x*P.y-C.y*P.x)/((C.x*C.x)+(C.y*C.y)));
 }
-function tween(T,B,M){
-  return ((M<=T)&&(M>=B))||((M>=T)&&(M<=B));
-}
 function Vlength(P){// Length/ distance of vector
   return Math.sqrt(P.x*P.x+P.y*P.y);
 }
-
+function tween(T,B,M){
+  return ((M<=T)&&(M>=B))||((M>=T)&&(M<=B));
+}
 function ball(Pos,Vel,Acc){
   this.Pos=Pos;
   this.Vel=Vel;
@@ -119,11 +118,11 @@ function wall(Corner,Base,bounce,slide){
   this.Stablise=function(Po){
     var RVel=Vdiv(Po.Vel,Base);
     RVel.y=0;
-    Po.Vel=Vx(RVel,Base); 
-    
+    Po.Vel=Vx(RVel,Base);
+
     var RACc=Vdiv(Po.Acc,Base);
     RACc.y=0;
-    Po.Acc=Vx(RACc,Base); 
+    Po.Acc=Vx(RACc,Base);
   }
 }
 function NumColliding(P){//number of particles colliding
@@ -146,7 +145,7 @@ function Hold(){
       this.Holding=Bool;
       this.Starts=Bool;
     }
-    
+
   }
   this.Continuing=function(Bool){
     if(this.Holding===true){
@@ -173,8 +172,8 @@ function animateBounce(){
     ctx.fillStyle = "white";
     Creating.Started(mousePress);
     Creating.Continuing(mousePress&&mouseInCanvas(ca));
-    
-    
+
+
     if(Creating.Starts){
       WList.push(new wall(mouseDoc(ca),new vect(0,0),0.8,0.8));
     }
@@ -190,7 +189,7 @@ function animateBounce(){
         ctx.font="15px Mukta"
         ctx.fillText("Click to change to rain",10,ca.height-10);
       if((T%5)===0){
-        BList.push(new ball(new vect(20,20),new vect(0,0),new vect(0,0.1)));      
+        BList.push(new ball(new vect(20,20),new vect(0,0),new vect(0,0.1)));
       }
     }else{
         ctx.fillStyle = "white";
@@ -243,7 +242,7 @@ function animateBounce(){
 
         }
       }
-      
+
       if(Balll.Pos.y>ca.height){
         BList.splice(BList.length-i-1,1);
       }
@@ -321,7 +320,7 @@ function animateF2(){
     F2.clearRect(0, 0, innerWidth, innerHeight);
     F2.lineWidth=2;
     F2.strokeStyle='rgba(255,255,255,1)';
-  
+
     CopyMBall=MBall.CopyBall();
     for(var Loopdraw=0;Loopdraw<15;Loopdraw++){
       F2.strokeStyle='rgba(150,150,150,1)';
@@ -424,7 +423,7 @@ function animateF3(){
       lineBall(WallBalls.Pos.x*20,WallBalls.Pos.y*20,10,F3);
       WallBalls.Update();
     }
-  
+
     F3.strokeStyle='rgba(100,100,100,1)'
     for(var linesY=0;linesY<MBall.Pos.y-0.5;linesY++){
       drawLine(MBall.Pos.x*20-5,linesY*20,MBall.Pos.x*20+5,linesY*20,F3);
@@ -434,7 +433,7 @@ function animateF3(){
     }
     drawLine(MBall.Pos.x*20,0,MBall.Pos.x*20,MBall.Pos.y*20-10,F3);
     drawLine(0,MBall.Pos.y*20,MBall.Pos.x*20-10,MBall.Pos.y*20,F3);
-  
+
     F3.strokeStyle='rgba(255,255,255,1)';
     lineBall(MBall.Pos.x*20,MBall.Pos.y*20,10,F3);
     F3.lineWidth=3;
@@ -553,7 +552,7 @@ function animateF4(){
     }
     drawLine(MBall.Pos.x*20,0,MBall.Pos.x*20,MBall.Pos.y*20-10,F4);
     drawLine(0,MBall.Pos.y*20,MBall.Pos.x*20-10,MBall.Pos.y*20,F4);
-  
+
     F4.strokeStyle='rgba(255,255,255,1)';
     lineBall(MBall.Pos.x*20,MBall.Pos.y*20,10,F4);
     F4.lineWidth=3;
@@ -606,14 +605,14 @@ function animateF5(){
     F5.clearRect(0, 0, innerWidth, innerHeight);
     F5.lineWidth=2;
     F5.strokeStyle='rgba(120,120,120,1)';
-  
+
     drawLine(ca5.width/4,0,ca4.width/4,250,F5);
     drawLine(ca5.width*3/4,0,ca5.width*3/4,250,F5);
     drawLine(0,ca5.height/2,ca5.width/2-10,ca5.height/2,F5);
     drawLine(ca5.width/2+10,ca5.height/2,ca5.width,ca5.height/2,F5);
     F5.strokeStyle='rgba(255,255,255,1)';
     lineBall(ca5.width/4+vectA.x*50,ca5.height/2-vectA.y*50,10,F5);
-  
+
     drawLine(ca5.width/4,ca5.height/2+2,ca5.width/4+vectA.x*50,ca5.height/2+2,F5);
     drawLine(ca5.width/4+vectA.x*50,ca5.height/2+2,ca5.width/4+vectA.x*50,ca5.height/2-vectA.y*50+2,F5);
     for(var lineshorison=0;lineshorison<Math.abs(vectA.x);lineshorison++){
@@ -632,7 +631,7 @@ function animateF5(){
     lineBall(ca5.width/4+vectB.x*50,ca5.height/2-vectB.y*50,10,F5);
     drawLine(ca5.width/4,ca5.height/2,ca5.width/4+vectB.x*50,ca5.height/2,F5);
     drawLine(ca5.width/4+vectB.x*50,ca5.height/2,ca5.width/4+vectB.x*50,ca5.height/2-vectB.y*50,F5);
-  
+
     lineBall(ca5.width*3/4+Vx(vectA,vectB).x*50,ca5.height/2-Vx(vectA,vectB).y*50,10,F5);
     for(var lineshorison=0;lineshorison<Math.abs(vectB.x);lineshorison++){
       drawLine(lineshorison*50*vectB.x/Math.abs(vectB.x)+ca5.width/4,ca5.height/2-5,lineshorison*50*vectB.x/Math.abs(vectB.x)+ca5.width/4,ca5.height/2+5,F5);
@@ -676,14 +675,14 @@ function animateF6(){
     F6.clearRect(0, 0, innerWidth, innerHeight);
     F6.lineWidth=2;
     F6.strokeStyle='rgba(120,120,120,1)';
-    
+
     drawLine(ca6.width/4,0,ca6.width/4,250,F6);
     drawLine(ca6.width*3/4,0,ca6.width*3/4,250,F6);
     drawLine(0,ca6.height/2,ca6.width/2-10,ca6.height/2,F6);
     drawLine(ca6.width/2+10,ca6.height/2,ca6.width,ca6.height/2,F6);
     F6.strokeStyle='rgba(255,255,255,1)';
     lineBall(ca6.width/4+vectA2.x*50,ca6.height/2-vectA2.y*50,10,F6);
-  
+
     drawLine(ca6.width/4,ca6.height/2+2,ca6.width/4+vectA2.x*50,ca6.height/2+2,F6);
     drawLine(ca6.width/4+vectA2.x*50,ca6.height/2+2,ca6.width/4+vectA2.x*50,ca6.height/2-vectA2.y*50+2,F6);
     for(var lineshorison=0;lineshorison<Math.abs(vectA2.x);lineshorison++){
@@ -692,7 +691,7 @@ function animateF6(){
     for(var linesvert=0;linesvert<Math.abs(vectA2.y)-.20;linesvert++){
      drawLine(ca6.width/4+vectA2.x*50+5,-linesvert*50*vectA2.y/Math.abs(vectA2.y)+ca6.height/2+2,ca6.width/4+vectA2.x*50-5,-linesvert*50*vectA2.y/Math.abs(vectA2.y)+ca6.height/2+2,F6);
     }
-  
+
     lineBall(ca6.width*3/4+50,ca6.height/2,5,F6);
     drawLine(ca6.width*3/4,ca6.height/2+2,ca6.width*3/4+Vdiv(new vect(vectA2.x,0),vectA2).x*50,ca6.height/2-Vdiv(new vect(vectA2.x,0),vectA2).y*50+2,F6);
     drawLine(ca6.width*3/4+50,ca6.height/2,ca6.width*3/4+Vdiv(new vect(vectA2.x,0),vectA2).x*50,ca6.height/2-Vdiv(new vect(vectA2.x,0),vectA2).y*50,F6);
@@ -793,7 +792,7 @@ function animateF7(){
       drawLine(WallBalls3.Pos.x*20,WallBalls3.Pos.y*20,WallBalls3.NextPos().x*20,WallBalls3.NextPos().y*20,F7);
       WallBalls3.Update();
     }
-  
+
     F7.strokeStyle='rgba(100,100,100,1)'
     for(var linesY=0;linesY<MBall.Pos.y-0.5;linesY++){
       drawLine(MBall.Pos.x*20-5,linesY*20,MBall.Pos.x*20+5,linesY*20,F7);
@@ -803,7 +802,7 @@ function animateF7(){
     }
     drawLine(MBall.Pos.x*20,0,MBall.Pos.x*20,MBall.Pos.y*20-10,F7);
     drawLine(0,MBall.Pos.y*20,MBall.Pos.x*20-10,MBall.Pos.y*20,F7);
-  
+
     F7.strokeStyle='rgba(255,255,255,1)';
     F7.lineWidth=2;
     lineBall(MBall.Pos.x*20,MBall.Pos.y*20,10,F7);
@@ -831,4 +830,3 @@ function animateF7(){
   }
 }
 animateF7();
-

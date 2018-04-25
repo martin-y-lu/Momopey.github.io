@@ -1,0 +1,42 @@
+body{
+  font-family:Montserrat,sans-serif;
+  margin: 0;
+}
+#core{
+  font-size: 20px;
+  line-height: 25px;
+  padding-left:20px;
+
+  margin-left:23px;
+  margin-right:500px;
+}
+#title{
+  font-family:Montserrat,sans-serif;
+
+  padding-left: 60px;
+  padding-top: 50px;
+  padding-bottom: 25px;
+
+  margin-bottom: 20px;
+
+  background-color: #f7faff;
+  color: black;
+  border-bottom: 5px solid #407fe5;
+}
+.subtitle{
+  font-size: 30px;
+  font-family:Montserrat,sans-serif;
+
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  max-width: 400px;
+  background-color: #f7faff;
+  border-bottom: 5px solid #ddeaff;
+  color: black;
+}
+h1{
+    font-size: 40px;
+}

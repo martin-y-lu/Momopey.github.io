@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+
+  <script type="text/javascript" src="Tangle.js"></script>
+
+  <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+  <script type="text/javascript" src="TangleKit/mootools.js"></script>
+	<script type="text/javascript" src="TangleKit/sprintf.js"></script>
+	<script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+	<script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+
+  		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  		<link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="transCSS.css">
+  <title>On matrix Transforms</title>
+</head>
+  <body background="GraphPaper.png">
+   <div id="title" class="middle">
+     <h1>
+       A perspective on matrix transformations
+     </h1>
+   </div>
+   <div id="core">
+     We've all seen matricies before, those formidable grids of numbers.
+     For lots they are shrowded in mystery, and something to do with Keanu reeves.
+     Let's try to unsheath the actual meanings and uses.
+     <div class="subtitle">
+      What a matrix does-
+    </div>
+    As we know, the beast we call the matrix has many abilities, matrix
+   multiplication, and addition. Let's take a look at multiplication to
+   see what it really does. Multiplication between a matrix and a list of numbers of looks like this-
+   <br><br>
+    <img  id="MatrixEx" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
+
+    <p id="Matrix">
+    for a list of <span  data-var="height"><span> values multiplied into a matrix
+      with <span class="TKAdjustableNumber" data-var="height" data-min="1" data-max="5"> rows </span>
+    and <b class="TKAdjustableNumber" data-var="width" data-min="1" data-max="5"> columns </b>
+    </p>
+     Unpacking this, a matrix seems like a nice way to represent a
+     function where all the outputs are linear functions on the inputs.
+     More particularly an A by B matrix takes a list of width A to one of
+     width B. <br> Neat.
+     <div class="subtitle">
+      What a matrix looks like-
+    </div>
+      Let's try to see what the matrix does to lists of numbers, and what do we do with lists of numbers?
+      Graph them! A list of two numbers can be described as points in 2D. Lets take a look at a graph of
+      a few points, before and after their multiplied matrix-
+      <canvas id="Matrix2d"> eh</canvas>
+      <br><br>
+      <img  id="2dMatrixText" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
+      <br><br>
+      Mouse over the points to see their multiplication, and drag them around.
+      <br><br>
+      Interesting, it seems like the matrix transformed the whole frame. Why? This is because
+      the matrix manipulated the basis vectors, the unit vectors in the x and y directions. Since
+      all other are just linear combinations of these, it transforms all of space. In symbols it looks like this-
+      <br><br>
+      <img id="MatrixEx2" src="http://latex.codecogs.com/gif.latex? \large
+      \begin{bmatrix}a_{1}&amp; a_{2}\\ b_{1}&amp; b_{2}\\  \end{bmatrix}
+      \times
+      \begin{bmatrix} x\\y\end{bmatrix}=
+      \begin{bmatrix}xa_{1} +ya_{2}\\xb_{1} +yb_{2}\\ \end{bmatrix}
+      = x\times \begin{bmatrix} a_{1}\\b_{1}\end{bmatrix}+
+      y\times \begin{bmatrix} a_{2}\\b_{2}\end{bmatrix}" border="0">
+      <br><br>
+      We call this kind of transformation a change of basis,
+      and as we shown, is simply matrix multiplication. Let's look
+      at how a general basis change affects points in space-
+      <canvas id="MatrixBasis"> eh</canvas>
+      <br><br>
+      <img  id="BasisMatrixText" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
+      <br><br>
+      Now you can drag the new basis vectors to move them.
+    </div>
+    <script src="transJS.js"></script>
+    <script src="MatrixTangle.js"></script>
+    <script src="MatDemo.js"></script>
+    <script src="BasisDemo.js"></script>
+  </body>
+</html>

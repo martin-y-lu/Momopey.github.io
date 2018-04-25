@@ -19,15 +19,13 @@ var ScrollB= new Scroller(document.getElementById("P2"),//Top element
 
 var E=new Community();
 //Set starting Cameras and Scales
-E.Cam.Scale=1;
+E.Cam.Scale=2;
 E.LikeDist=pa.height*D.Cam.Scale*0.7;
 E.HateDist=E.LikeDist*2;
 
-
-// for(var N=0;N<9;N++){
-//   E.PList.push(new Person(new vect(pb.width*.5,pb.height*.5),E));
-//   // console.log(pb.width+"    , "+pb.height)
-// }
+ScrollB.AddStartFuncts(0,1,function(){
+  
+})
 
 function animatePb(){//Animator
   ScrollB.setPos();//Sets the Canvas Position

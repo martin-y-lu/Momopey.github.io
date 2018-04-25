@@ -14,8 +14,8 @@ D.HateDist=D.LikeDist*2;
 D.PrevCam.Scale=1.3;
 D.NextCam.Scale=1.4;
 
-
-var KillConnect= new Button(new vect(120,10),new vect(100,100),1,function(){
+// <editor-fold> Buttons
+var KillConnect= new Button(1,function(){
   KillConnect.G.length+=2;
 },function(){
   var Trigger1=KillConnect.G[0];
@@ -53,13 +53,13 @@ var KillConnect= new Button(new vect(120,10),new vect(100,100),1,function(){
     document.getElementById('ButtonB').innerText = 'Click here to kill connections'
   }
 });
-KillConnect.I();
-var AddConnect= new Button(new vect(10,10),new vect(100,100),2,function(){
+
+var AddConnect= new Button(2,function(){
   // Layout-
   //Add Connect F- contains the pos numbers
   //Add Connect G- contains the text button press, and the off switch
   //Add Connect B- The two states
-  AddConnect.F.length+=2;
+  AddConnect.F["posA"];
   AddConnect.D.length+=2;
 },function(){
   var NewConnect;
@@ -128,12 +128,15 @@ var AddConnect= new Button(new vect(10,10),new vect(100,100),2,function(){
   }
   }
 });
-AddConnect.I();
 // After all this I have a newfound respect for UI designers.
-
+//</editor-fold>
+KillConnect.I();
+AddConnect.I();
 var Buttons=[];
 Buttons.push(KillConnect);
 Buttons.push(AddConnect);
+
+// <editor-fold> More interaction functions
 var NoButtonIngaged= function(){
   var AnyStateOn=false;
   for(var i=0;i<Buttons.length;i++){
@@ -181,6 +184,9 @@ var BallClickAdd= function(){
     }
   }
 }
+//</editor-fold>
+
+// <editor-fold> Scroller setup
 ScrollA.AddStateFuncts(0,function(){// On the first state
   BallClickCheck();// People click
   BallClickAdd();
@@ -289,14 +295,16 @@ ScrollA.AddTransFuncts(2,3,function(){// During trans
     }
   }
 })
+//</editor-fold>
 function animatePa(){//Animator
-
   ScrollA.setPos();//Sets the Canvas Position
   ScrollA.CalcPos();//Calc the text El next to canvas
   ScrollA.TextEl(ScrollA.CurrPos).style.color='rgba(0,0,0,1)';//Set the tect el next to canvas Black
   ScrollA.UpdateSystem();
   D.Draw(Fa);
 
+
   AddConnect.D();
   KillConnect.D();
+
 }
