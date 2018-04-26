@@ -44,12 +44,6 @@ function Vlength(P){// Length/ distance of vector
 function tween(T,B,M){
   return ((M<=T)&&(M>=B))||((M>=T)&&(M<=B));
 }
-function drawLinePos(Pos1,Pos2,con){
-  con.beginPath();
-  con.moveTo(Pos1.x,Pos1.y);
-  con.lineTo(Pos2.x,Pos2.y);
-  con.stroke();
-}
 function LatexMat(Mat){
   var S="\\begin{bmatrix}"
   for(var i=0; i<Mat.length; i++){
@@ -78,6 +72,7 @@ function Scene(Matrix,PointsList,Elem){
   this.Mat=Matrix;
   this.Points=PointsList;
   this.HoldNum=null;
+  this.BasisNum=null;
   this.ca=Elem;
   this.ctx=this.ca.getContext("2d");
   this.Init=function(){
@@ -95,9 +90,9 @@ function Scene(Matrix,PointsList,Elem){
   }
   this.Interact=function(){
     this.HoldNum=UpdateHold(this.Points,this.HoldNum,this.ca);
-    if(this.HoldNum!=null){
-      DrawSelection(this.Points[this.HoldNum],this.Mat,this.ctx)
-    }
+  }
+  this.BasisInteract=function(){
+    this.BasisNum=UpdateBasis(this.Mat,this.BasisNum,this.ca);
   }
   this.UpdateText=function(textIMG){
     textIMG.src= UpdateString(this.Mat,this.Points,this.HoldNum);
@@ -107,6 +102,11 @@ function Scene(Matrix,PointsList,Elem){
   }
   this.DrawBasisVectors=function(){
     DrawBasisVectors(this.Mat,this.ctx);
+  }
+  this.DrawSelection=function(){
+    if(this.HoldNum!=null){
+      DrawSelection(this.Points[this.HoldNum],this.Mat,this.ctx)
+    };
   }
   this.DrawBasisSelection=function(){
     if(this.HoldNum!=null){
@@ -121,14 +121,28 @@ function drawLine(X1,Y1,X2,Y2,con){
   con.lineTo(X2,Y2);
   con.stroke();
 }
-function drawCircle(X,Y,R,ctx){
+function drawLinePos(Pos1,Pos2,con){
+  con.beginPath();
+  con.moveTo(Pos1.x,Pos1.y);
+  con.lineTo(Pos2.x,Pos2.y);
+  con.stroke();
+}
+function drawCircle(X,Y,R,ctx,fill){
+
   ctx.beginPath();
   ctx.arc(X, Y, R, 0, 2 * Math.PI, false);
-  ctx.fillStyle = 'rgb(0,0,0)';
+  if(fill==null){
+    ctx.fillStyle = 'rgb(0,0,0)';
+  }else{
+    ctx.fillStyle = fill;
+  }
   ctx.fill();
 }
 function MouseNear(Pos,El){
   return Vlength(Vadd(PtoGraph1(Pos),mouseDoc(El).neg()))<8;
+}
+function MouseNearGraph2(Pos,El){
+  return Vlength(Vadd(PtoGraph2(Pos),mouseDoc(El).neg()))<8;
 }
 function MatMult(mat, vec){
   return{x: vec.x*mat[0][0]+vec.y*mat[0][1],y: vec.x*mat[1][0]+vec.y*mat[1][1]}
@@ -142,6 +156,9 @@ function Graph1toP(Pos){
 function PtoGraph2(Pos){
   return {x:(800+400+20)/2+Pos.x*30, y:150-Pos.y*30};
 }
+function Graph2toP(Pos){
+  return {x:(Pos.x-(800+400+20)/2)/30,y:(150-Pos.y)/30};
+}
 function PinGraph(Pos){
   return tween(((400-20)/2)/30,-((400-20)/2)/30,Pos.x)&&tween(150/30,-150/30,Pos.y);
 }
@@ -150,6 +167,17 @@ function MouseOnPoint(PList,El){
   for(var i=0;i<PList.length;i++){
     if(MouseNear(PList[i],El)){
       if(PinGraph(PList[i])){
+        Hold=i;
+      }
+    }
+  }
+  return Hold;
+}
+function MouseBasis(Mat,El){
+  var Hold=null;
+  for(var i=0;i<Mat[0].length;i++){
+    if(MouseNearGraph2({x:Mat[0][i],y:Mat[1][i]},El)){
+      if(PinGraph({x:Mat[0][i],y:Mat[1][i]})){
         Hold=i;
       }
     }
@@ -170,9 +198,25 @@ function UpdateHold(Poi,lastHold,El){
   }
   return NextHold;
 }
+function UpdateBasis(Mat,lastHold,El){
+  var NextHold=lastHold;
+  if(MouseBasis(Mat,El)!=null){
+    NextHold=MouseBasis(Mat,El);
+  }else if(!mousePress){
+    NextHold=null;
+  }
+  if(NextHold!=null){
+    if(mousePress&&PinGraph(Graph2toP(mouseDoc(El)))){
+      Mat[0][NextHold]=Graph2toP(mouseDoc(El)).x;
+      Mat[1][NextHold]=Graph2toP(mouseDoc(El)).y;
+    }
+  }
+  return NextHold;
+}
 function UpdateString(Mat,Points,HoldNum){
   var S="http://latex.codecogs.com/gif.latex? \\large"
-  S+=LatexMat(Mat);
+  S+=LatexMat(ApplyFunct(Mat,function(i,j){return Mat[i][j].toFixed(1);
+  }));
   S+="\\times"
   if(HoldNum==null){
     var InVect=["x","y"];
@@ -181,8 +225,8 @@ function UpdateString(Mat,Points,HoldNum){
   }
   S+=LatexMat([[InVect[0]],[InVect[1]]]);
   S+="="
-  var GeneralOut=[[InVect[0]+"("+Mat[0][0]+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[0][1]+")"],
-                  [InVect[0]+"("+Mat[1][0]+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[1][1]+")"]]
+  var GeneralOut=[[InVect[0]+"("+Mat[0][0].toFixed(1)+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[0][1].toFixed(1)+")"],
+                  [InVect[0]+"("+Mat[1][0].toFixed(1)+")"+((InVect[1]>=0||HoldNum==null) ? "+" : "")+InVect[1]+"("+Mat[1][1].toFixed(1)+")"]]
   S+=LatexMat(GeneralOut);
   if(HoldNum!=null){
     S+="=";
@@ -281,6 +325,9 @@ function DrawBasisVectors(Mat,ctx){
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:0,y:0})),ctx);
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:0.2})),ctx);
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:-0.2})),ctx);
+
+  drawCircle(PtoGraph2(MatMult(Mat,{x:0,y:1})).x,PtoGraph2(MatMult(Mat,{x:0,y:1})).y,4.5,ctx,"rgb(255,100,100)");
+  drawCircle(PtoGraph2(MatMult(Mat,{x:1,y:0})).x,PtoGraph2(MatMult(Mat,{x:1,y:0})).y,4.5,ctx,"rgb(100,255,100)");
 }
 function DrawPointsGraph1(PList,ctx){
   for(var i=0;i<PList.length;i++){
@@ -303,7 +350,6 @@ function DrawSelection(Poi,Mat,ctx){
   drawLinePos(PtoGraph1(Poi),PtoGraph1({x:Poi.x,y:0}),ctx);
   drawCircle(PtoGraph1(Poi).x, PtoGraph1(Poi).y, 10,ctx)
   if(PinGraph(MatMult(Mat,Poi))){
-    //DrawBasisSelection(Poi,Mat,ctx);
     drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
   }
 }
@@ -314,10 +360,6 @@ function DrawBasisSelection(Poi,Mat,ctx){
   ctx.strokeStyle="rgb(140,10,10)";
   drawLinePos(PtoGraph2(MatMult(Mat,Poi)),PtoGraph2(MatMult(Mat,{x:Poi.x,y:0})),ctx);
   if(PinGraph(MatMult(Mat,Poi))){
-    //DrawBasisSelection(Poi,Mat,ctx);
     drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
   }
-  //drawCircle(PtoGraph1(MatMult(Mat,Poi)).x, PtoGraph1(MatMult(Mat,Poi)).y, 10,ctx);
-  // if(PinGraph(MatMult(Mat,Poi))){
-  //   drawCircle(PtoGraph2(MatMult(Mat,Poi)).x, PtoGraph2(MatMult(Mat,Poi)).y, 10,ctx)
  }

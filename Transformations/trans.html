@@ -12,10 +12,13 @@
 	<script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
 	<script type="text/javascript" src="TangleKit/TangleKit.js"></script>
 
-  		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-  		<link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link href="https://fonts.googleapis.com/css?family=Mukta" rel="stylesheet">
+
+
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="transCSS.css">
+  <link rel="icon" href="/FaceImg.png">
   <title>On matrix Transforms</title>
 </head>
   <body background="GraphPaper.png">
@@ -36,7 +39,6 @@
    see what it really does. Multiplication between a matrix and a list of numbers of looks like this-
    <br><br>
     <img  id="MatrixEx" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
-
     <p id="Matrix">
     for a list of <span  data-var="height"><span> values multiplied into a matrix
       with <span class="TKAdjustableNumber" data-var="height" data-min="1" data-max="5"> rows </span>
@@ -48,7 +50,7 @@
      width B. <br> Neat.
      <div class="subtitle">
       What a matrix looks like-
-    </div>
+      </div>
       Let's try to see what the matrix does to lists of numbers, and what do we do with lists of numbers?
       Graph them! A list of two numbers can be described as points in 2D. Lets take a look at a graph of
       a few points, before and after their multiplied matrix-
@@ -62,7 +64,7 @@
       the matrix manipulated the basis vectors, the unit vectors in the x and y directions. Since
       all other are just linear combinations of these, it transforms all of space. In symbols it looks like this-
       <br><br>
-      <img id="MatrixEx2" src="http://latex.codecogs.com/gif.latex? \large
+      <img src="http://latex.codecogs.com/gif.latex? \large
       \begin{bmatrix}a_{1}&amp; a_{2}\\ b_{1}&amp; b_{2}\\  \end{bmatrix}
       \times
       \begin{bmatrix} x\\y\end{bmatrix}=
@@ -77,7 +79,19 @@
       <br><br>
       <img  id="BasisMatrixText" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
       <br><br>
-      Now you can drag the new basis vectors to move them.
+      Now you can drag the new basis vectors (red and green dots at the end of the arrows) to move them.
+      <div class="subtitle">
+      Space transformations-
+      </div>
+      Looking at a matrix as a basis transformation, instead of a list of proportinal functions,
+      or a general grid of numbers, makes confusing transformation matrixes become almost obvious.
+      <br><br>
+      <img src="http://latex.codecogs.com/gif.latex? \Large
+      \begin{bmatrix} \cos(\alpha)&amp; -\sin(\alpha)\\ \sin(\alpha)&amp; \cos(\alpha)\\  \end{bmatrix}" border="0">
+      <br><br>
+      This is the matrix for a rotation of <img src="http://latex.codecogs.com/gif.latex?\large \alpha"> radians.
+      This may go over your head, but lets visualise it-
+
     </div>
     <script src="transJS.js"></script>
     <script src="MatrixTangle.js"></script>

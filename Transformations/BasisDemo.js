@@ -7,14 +7,18 @@ var BasisScene=new Scene([[1,1],
 BasisScene.Init();
 function animateTransB(){
   window.requestAnimationFrame(animateTransB);
-  ctx1.clearRect(0, 0, cb.width, cb.height);
   BasisScene.Interact();
+  BasisScene.BasisInteract();
+  ctx1.clearRect(0, 0, cb.width, cb.height);
+  BasisScene.DrawBasisGraph();
+  ctx1.clearRect(0, 0, cb.width/2, cb.height);
   BasisScene.Display();
   DrawGraph2("rgb(200,200,200)",ctx1);
-  BasisScene.DrawBasisGraph();
+  BasisScene.DrawSelection();
   BasisScene.DrawBasisVectors();
   BasisScene.DrawBasisSelection();
   BasisScene.DrawPoints();
   BasisScene.UpdateText(document.getElementById("BasisMatrixText"));
+  console.log(BasisScene.BasisNum);
 }
 animateTransB()
