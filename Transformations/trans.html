@@ -18,7 +18,7 @@
 
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="transCSS.css">
-  <link rel="icon" href="/FaceImg.png">
+  <link rel="icon" href="/Faceimg.png">
   <title>On matrix Transforms</title>
 </head>
   <body background="GraphPaper.png">
@@ -86,16 +86,23 @@
       Looking at a matrix as a basis transformation, instead of a list of proportinal functions,
       or a general grid of numbers, makes confusing transformation matrixes become almost obvious.
       <br><br>
-      <img src="http://latex.codecogs.com/gif.latex? \Large
+      <img id="AngleMatrixEx" src="http://latex.codecogs.com/gif.latex? \Large
       \begin{bmatrix} \cos(\alpha)&amp; -\sin(\alpha)\\ \sin(\alpha)&amp; \cos(\alpha)\\  \end{bmatrix}" border="0">
       <br><br>
-      This is the matrix for a rotation of <img src="http://latex.codecogs.com/gif.latex?\large \alpha"> radians.
-      This may go over your head, but lets visualise it-
-
+      <p id="rotMat">
+        This is the matrix for a rotation of <span class="TKAdjustableNumber" data-var="angle" data-min="0" data-max="360" data-step="4"> degrees</span>.
+        This may go over your head, but lets visualise it-
+      </p>
+      <canvas id="MatrixAngle"> eh</canvas>
+      <br><br>
+      <img  id="AngleMatrixText" src="http://latex.codecogs.com/gif.latex? \large" border="0"/>
+      <br><br>
+      And from this you can see
     </div>
     <script src="transJS.js"></script>
     <script src="MatrixTangle.js"></script>
     <script src="MatDemo.js"></script>
     <script src="BasisDemo.js"></script>
+    <script src="AngleDemo.js"></script>
   </body>
 </html>

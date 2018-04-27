@@ -110,8 +110,11 @@ function Scene(Matrix,PointsList,Elem){
   }
   this.DrawBasisSelection=function(){
     if(this.HoldNum!=null){
-      DrawBasisSelection(this.Points[this.HoldNum],this.Mat,ctx1)
+      DrawBasisSelection(this.Points[this.HoldNum],this.Mat,this.ctx)
     }
+  }
+  this.DrawBasisSelectors=function(){
+    DrawBasisSelectors(this.Mat,this.ctx)
   }
 }
 function drawLine(X1,Y1,X2,Y2,con){
@@ -325,7 +328,8 @@ function DrawBasisVectors(Mat,ctx){
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:0,y:0})),ctx);
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:0.2})),ctx);
   drawLinePos(PtoGraph2(MatMult(Mat,{x:1,y:0})),PtoGraph2(MatMult(Mat,{x:1-0.4,y:-0.2})),ctx);
-
+}
+function DrawBasisSelectors(Mat,ctx){
   drawCircle(PtoGraph2(MatMult(Mat,{x:0,y:1})).x,PtoGraph2(MatMult(Mat,{x:0,y:1})).y,4.5,ctx,"rgb(255,100,100)");
   drawCircle(PtoGraph2(MatMult(Mat,{x:1,y:0})).x,PtoGraph2(MatMult(Mat,{x:1,y:0})).y,4.5,ctx,"rgb(100,255,100)");
 }

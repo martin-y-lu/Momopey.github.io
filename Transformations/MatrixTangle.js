@@ -37,3 +37,23 @@ var tangle = new Tangle (document.getElementById("Matrix"), {
       document.getElementById("MatrixEx").src= S;
     }
 });
+var tangle2 = new Tangle (document.getElementById("rotMat"), {
+    initialize: function () {
+        this.angle = 360-45;
+    },
+    update: function () {
+      var S="http://latex.codecogs.com/gif.latex?\\Large"
+      S+=LatexMat(
+        [["\\cos("+this.angle+"^\\circ)","-\\sin("+this.angle+"^\\circ)"],
+        ["\\sin("+this.angle+"^\\circ)","\\cos("+this.angle+"^\\circ)"]])
+      S+="="
+      S+=LatexMat(
+        [[Math.cos(toRad(this.angle)).toFixed(2),Math.sin(toRad(-this.angle)).toFixed(2)],
+        [Math.sin(toRad(this.angle)).toFixed(2),Math.cos(toRad(this.angle)).toFixed(2)]]
+      )
+      document.getElementById("AngleMatrixEx").src=S;
+    }
+});
+function toRad(inp){
+  return inp*Math.PI/180;
+}

@@ -16,9 +16,9 @@ function animateTransB(){
   DrawGraph2("rgb(200,200,200)",ctx1);
   BasisScene.DrawSelection();
   BasisScene.DrawBasisVectors();
+  BasisScene.DrawBasisSelectors();
   BasisScene.DrawBasisSelection();
   BasisScene.DrawPoints();
   BasisScene.UpdateText(document.getElementById("BasisMatrixText"));
-  console.log(BasisScene.BasisNum);
 }
 animateTransB()
